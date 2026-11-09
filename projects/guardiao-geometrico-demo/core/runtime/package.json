@@ -1,0 +1,12 @@
+{
+  "name": "maxros-project-runtime",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Standalone reproducible runtime for Maxros Engine project",
+  "type": "module",
+  "main": "./runtime.js",
+  "dependencies": {
+    "three": "0.187.0",
+    "cannon-es": "0.20.0"
+  }
+}

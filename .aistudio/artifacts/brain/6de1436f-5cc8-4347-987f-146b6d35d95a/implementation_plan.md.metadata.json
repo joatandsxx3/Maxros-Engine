@@ -1,0 +1,6 @@
+{
+  "summary":  "Plano de implementação revisado unificando integralmente o antigo PhysicsScript ao ciclo de vida nativo das classes JavaScript estendidas (update(delta)) e às propriedades físicas diretas dos Nodes 3D (Node3D, Mesh3D, RigidBody3DNode), preservando 100% das funcionalidades físicas (gravidade, velocidade, aceleração, massa, quique/restitution, atrito/friction, linearDamping, aplicação de forças/impulsos, detecção de contato/colisões e sincronização com cannon-es), removendo o PhysicsScript como componente separado, migrando cenas legadas automaticamente e mantendo a interface fiel à imagem de referência e o fluxo bidirecional de Cenas Instanciadas.",
+  "updatedAt":  "2026-11-09T01:17:02.394558073Z",
+  "requestFeedback":  true,
+  "userFacing":  true
+}

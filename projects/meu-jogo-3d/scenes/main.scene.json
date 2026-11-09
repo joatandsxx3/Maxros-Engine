@@ -1,0 +1,385 @@
+{
+  "engine": "Maxros Engine",
+  "version": "1.0",
+  "name": "Node3D",
+  "environment": {
+    "mode": "solid_color",
+    "color": "#1e2430",
+    "skybox": null
+  },
+  "rootNodes": [
+    {
+      "type": "Node3D",
+      "uuid": "8d2df403-3800-4710-a8a2-2007bec4d048",
+      "name": "Node3D",
+      "uniqueName": false,
+      "editorVisible": true,
+      "editorLocked": false,
+      "processMode": "inherit",
+      "processPriority": 0,
+      "tickRate": 0,
+      "runInEditor": false,
+      "groups": [],
+      "meta": {},
+      "environment": {
+        "mode": "solid_color",
+        "color": "#1e2430",
+        "skybox": null
+      },
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "order": "XYZ"
+      },
+      "quaternion": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "scale": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      },
+      "components": [],
+      "scripts": [],
+      "children": [
+        {
+          "type": "Camera3D",
+          "uuid": "a0ed939f-9718-4e9c-be24-947c285ecaf4",
+          "name": "MainCamera",
+          "uniqueName": true,
+          "editorVisible": true,
+          "editorLocked": false,
+          "processMode": "inherit",
+          "processPriority": 0,
+          "tickRate": 0,
+          "runInEditor": false,
+          "groups": [],
+          "meta": {},
+          "position": {
+            "x": 0,
+            "y": 5.5,
+            "z": 10.5
+          },
+          "rotation": {
+            "x": -0.4363323129985824,
+            "y": 0,
+            "z": 0,
+            "order": "XYZ"
+          },
+          "quaternion": {
+            "x": -0.21643961393810288,
+            "y": 0,
+            "z": 0,
+            "w": 0.9762960071199334
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "components": [],
+          "scripts": [],
+          "children": [],
+          "camera": {
+            "current": true,
+            "projection": "perspective",
+            "fov": 55,
+            "aspect": 1.7778,
+            "size": 10,
+            "near": 0.1,
+            "far": 200
+          }
+        },
+        {
+          "type": "DirectionalLight3D",
+          "uuid": "ccf55a95-ad64-4cfc-8d6d-9bce45e39990",
+          "name": "DirectionalSunLight",
+          "uniqueName": false,
+          "editorVisible": true,
+          "editorLocked": false,
+          "processMode": "inherit",
+          "processPriority": 0,
+          "tickRate": 0,
+          "runInEditor": false,
+          "groups": [],
+          "meta": {},
+          "position": {
+            "x": 6,
+            "y": 12,
+            "z": 6
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "order": "XYZ"
+          },
+          "quaternion": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "components": [],
+          "scripts": [],
+          "children": [],
+          "light": {
+            "lightType": "directional",
+            "color": "#f8fafc",
+            "intensity": 1.5,
+            "castShadow": true,
+            "shadowMapSize": 1024,
+            "shadowBias": -0.0005,
+            "range": 20,
+            "decay": 2,
+            "angle": 45,
+            "penumbra": 0.2,
+            "groundColor": "#1e293b"
+          }
+        },
+        {
+          "type": "AmbientLight3D",
+          "uuid": "24473ac2-3765-4b43-9f79-716ebc5e7073",
+          "name": "AmbientFillLight",
+          "uniqueName": false,
+          "editorVisible": true,
+          "editorLocked": false,
+          "processMode": "inherit",
+          "processPriority": 0,
+          "tickRate": 0,
+          "runInEditor": false,
+          "groups": [],
+          "meta": {},
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "order": "XYZ"
+          },
+          "quaternion": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "components": [],
+          "scripts": [],
+          "children": [],
+          "light": {
+            "lightType": "ambient",
+            "color": "#94a3b8",
+            "intensity": 0.5,
+            "castShadow": false,
+            "shadowMapSize": 1024,
+            "shadowBias": -0.0005,
+            "range": 20,
+            "decay": 2,
+            "angle": 45,
+            "penumbra": 0.2,
+            "groundColor": "#1e293b"
+          }
+        },
+        {
+          "type": "RigidBody3DNode",
+          "uuid": "84c8ba32-4083-4b0a-a617-7eabc4013643",
+          "name": "GroundFloor",
+          "uniqueName": false,
+          "editorVisible": true,
+          "editorLocked": false,
+          "processMode": "inherit",
+          "processPriority": 0,
+          "tickRate": 0,
+          "runInEditor": false,
+          "groups": [],
+          "meta": {},
+          "position": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "order": "XYZ"
+          },
+          "quaternion": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "components": [],
+          "scripts": [],
+          "children": [
+            {
+              "type": "CollisionShape3DNode",
+              "uuid": "9cd28ba6-18c5-4669-8bfa-2fc96d0a1929",
+              "name": "GroundCollider",
+              "uniqueName": false,
+              "editorVisible": true,
+              "editorLocked": false,
+              "processMode": "inherit",
+              "processPriority": 0,
+              "tickRate": 0,
+              "runInEditor": false,
+              "groups": [],
+              "meta": {},
+              "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "quaternion": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "components": [],
+              "scripts": [],
+              "children": [],
+              "shapeType": "Box",
+              "dimensions": {
+                "x": 14,
+                "y": 0.5,
+                "z": 14
+              },
+              "halfExtents": {
+                "x": 7,
+                "y": 0.25,
+                "z": 7
+              },
+              "radius": 0.5
+            },
+            {
+              "type": "Mesh3D",
+              "uuid": "6686c8a8-dc45-436f-931e-1ccd41d35702",
+              "name": "GroundMesh",
+              "uniqueName": false,
+              "editorVisible": true,
+              "editorLocked": false,
+              "processMode": "inherit",
+              "processPriority": 0,
+              "tickRate": 0,
+              "runInEditor": false,
+              "groups": [],
+              "meta": {},
+              "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "quaternion": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "script": {
+                "uuid": "f6c14b0f-9afd-49bf-bc4c-ee5efb60992d"
+              },
+              "material": {
+                "uuid": "82a5ab3e-7c2f-4ff2-ada8-c38189234e2f"
+              },
+              "components": [],
+              "scripts": [],
+              "children": [],
+              "mesh": {
+                "shape": "box",
+                "shapeParams": {
+                  "width": 14,
+                  "height": 0.5,
+                  "depth": 14
+                },
+                "material": {
+                  "type": "standard",
+                  "color": "#334155",
+                  "roughness": 0.7,
+                  "metalness": 0.2,
+                  "emissive": "#000000",
+                  "emissiveIntensity": 0,
+                  "opacity": 1,
+                  "transparent": false,
+                  "wireframe": false,
+                  "side": "front",
+                  "blending": "normal"
+                },
+                "castShadow": true,
+                "receiveShadow": true,
+                "pickable": true
+              }
+            }
+          ],
+          "mass": 0,
+          "bodyType": "static",
+          "linearDamping": 0.01,
+          "angularDamping": 0.01,
+          "fixedRotation": false,
+          "allowSleep": true,
+          "linearVelocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "angularVelocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        }
+      ]
+    }
+  ]
+}

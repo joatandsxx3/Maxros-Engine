@@ -1,0 +1,806 @@
+{
+  "type": "Node3D",
+  "uuid": "7db2507c-0d1e-41ee-9d0b-943c87c16411",
+  "name": "Node3D",
+  "uniqueName": false,
+  "editorVisible": true,
+  "editorLocked": false,
+  "processMode": "inherit",
+  "processPriority": 0,
+  "tickRate": 0,
+  "runInEditor": false,
+  "groups": [],
+  "meta": {},
+  "environment": {
+    "mode": "solid_color",
+    "color": "#1e2430",
+    "skybox": null
+  },
+  "position": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+  },
+  "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "order": "XYZ"
+  },
+  "quaternion": {
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "w": 1
+  },
+  "scale": {
+    "x": 1,
+    "y": 1,
+    "z": 1
+  },
+  "components": [],
+  "scripts": [],
+  "children": [
+    {
+      "type": "RigidBody3DNode",
+      "uuid": "2d9e1a3b-30c0-4832-94f2-84034b30a314",
+      "name": "StaticArenaFloor",
+      "uniqueName": false,
+      "editorVisible": true,
+      "editorLocked": false,
+      "processMode": "inherit",
+      "processPriority": 0,
+      "tickRate": 0,
+      "runInEditor": false,
+      "groups": [],
+      "meta": {},
+      "position": {
+        "x": 0,
+        "y": -0.5,
+        "z": 0
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "order": "XYZ"
+      },
+      "quaternion": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "scale": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      },
+      "components": [],
+      "scripts": [],
+      "children": [
+        {
+          "type": "CollisionShape3DNode",
+          "uuid": "89ef2cd2-6fb1-4271-89a5-d7077c23c3c8",
+          "name": "FloorBoxCollider",
+          "uniqueName": false,
+          "editorVisible": true,
+          "editorLocked": false,
+          "processMode": "inherit",
+          "processPriority": 0,
+          "tickRate": 0,
+          "runInEditor": false,
+          "groups": [],
+          "meta": {},
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "order": "XYZ"
+          },
+          "quaternion": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "components": [],
+          "scripts": [],
+          "children": [],
+          "shapeType": "Box",
+          "dimensions": {
+            "x": 16,
+            "y": 1,
+            "z": 16
+          },
+          "halfExtents": {
+            "x": 8,
+            "y": 0.5,
+            "z": 8
+          },
+          "radius": 0.5
+        }
+      ],
+      "mass": 0,
+      "bodyType": "static",
+      "linearDamping": 0.01,
+      "angularDamping": 0.01,
+      "fixedRotation": false,
+      "allowSleep": true,
+      "linearVelocity": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "angularVelocity": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "type": "EngineNode",
+      "uuid": "92409e86-d199-43a7-93e1-ffab9d9dc0c3",
+      "name": "ElevatedPlatformGroup",
+      "uniqueName": false,
+      "editorVisible": true,
+      "editorLocked": false,
+      "processMode": "inherit",
+      "processPriority": 0,
+      "tickRate": 0,
+      "runInEditor": false,
+      "groups": [],
+      "meta": {},
+      "position": {
+        "x": -2.2,
+        "y": 1.6,
+        "z": 0
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "order": "XYZ"
+      },
+      "quaternion": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "scale": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      },
+      "components": [],
+      "scripts": [],
+      "children": [
+        {
+          "type": "RigidBody3DNode",
+          "uuid": "d1792481-c59f-4ca1-861a-542334160598",
+          "name": "InclinedDeflector",
+          "uniqueName": false,
+          "editorVisible": true,
+          "editorLocked": false,
+          "processMode": "inherit",
+          "processPriority": 0,
+          "tickRate": 0,
+          "runInEditor": false,
+          "groups": [],
+          "meta": {},
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": -0.22,
+            "order": "XYZ"
+          },
+          "quaternion": {
+            "x": 0,
+            "y": 0,
+            "z": -0.10977830083717481,
+            "w": 0.9939560979566968
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "components": [],
+          "scripts": [],
+          "children": [
+            {
+              "type": "CollisionShape3DNode",
+              "uuid": "bea2e2e4-0b8f-44fa-9266-3617d9ee2d81",
+              "name": "DeflectorBoxShape",
+              "uniqueName": false,
+              "editorVisible": true,
+              "editorLocked": false,
+              "processMode": "inherit",
+              "processPriority": 0,
+              "tickRate": 0,
+              "runInEditor": false,
+              "groups": [],
+              "meta": {},
+              "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "quaternion": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "components": [],
+              "scripts": [],
+              "children": [],
+              "shapeType": "Box",
+              "dimensions": {
+                "x": 4.2,
+                "y": 0.4,
+                "z": 3.2
+              },
+              "halfExtents": {
+                "x": 2.1,
+                "y": 0.2,
+                "z": 1.6
+              },
+              "radius": 0.5
+            }
+          ],
+          "mass": 0,
+          "bodyType": "static",
+          "linearDamping": 0.01,
+          "angularDamping": 0.01,
+          "fixedRotation": false,
+          "allowSleep": true,
+          "linearVelocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "angularVelocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "type": "Sprite3DNode",
+          "uuid": "06b2db95-0200-4d15-90f9-4d48442b57ff",
+          "name": "PlatformBillboardSprite",
+          "uniqueName": false,
+          "editorVisible": true,
+          "editorLocked": false,
+          "processMode": "inherit",
+          "processPriority": 0,
+          "tickRate": 0,
+          "runInEditor": false,
+          "groups": [],
+          "meta": {},
+          "position": {
+            "x": -1.4,
+            "y": 1.4,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "order": "XYZ"
+          },
+          "quaternion": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "components": [],
+          "scripts": [],
+          "children": [],
+          "texturePath": "assets/textures/beacon_marker.png",
+          "renderMode": "sprite",
+          "width": 1.1,
+          "height": 1.1,
+          "color": "#38bdf8",
+          "opacity": 1
+        }
+      ]
+    },
+    {
+      "type": "RigidBody3DNode",
+      "uuid": "3d6b86af-43bb-4c00-99c3-af224438ff00",
+      "name": "DynamicCargoCrate_A",
+      "uniqueName": false,
+      "editorVisible": true,
+      "editorLocked": false,
+      "processMode": "inherit",
+      "processPriority": 0,
+      "tickRate": 0,
+      "runInEditor": false,
+      "groups": [],
+      "meta": {},
+      "position": {
+        "x": -1.6,
+        "y": 5.2,
+        "z": 0
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "order": "XYZ"
+      },
+      "quaternion": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "scale": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      },
+      "components": [],
+      "scripts": [],
+      "children": [
+        {
+          "type": "CollisionShape3DNode",
+          "uuid": "350519b9-d9d4-4cd4-9967-e2c086a5f0d7",
+          "name": "CrateCollider_A",
+          "uniqueName": false,
+          "editorVisible": true,
+          "editorLocked": false,
+          "processMode": "inherit",
+          "processPriority": 0,
+          "tickRate": 0,
+          "runInEditor": false,
+          "groups": [],
+          "meta": {},
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "order": "XYZ"
+          },
+          "quaternion": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "components": [],
+          "scripts": [],
+          "children": [],
+          "shapeType": "Box",
+          "dimensions": {
+            "x": 1.2,
+            "y": 1.2,
+            "z": 1.2
+          },
+          "halfExtents": {
+            "x": 0.6,
+            "y": 0.6,
+            "z": 0.6
+          },
+          "radius": 0.5
+        },
+        {
+          "type": "Sprite3DNode",
+          "uuid": "c9591df2-c168-4f45-8b77-1e71b784ed6f",
+          "name": "CrateDecalPlane_A",
+          "uniqueName": false,
+          "editorVisible": true,
+          "editorLocked": false,
+          "processMode": "inherit",
+          "processPriority": 0,
+          "tickRate": 0,
+          "runInEditor": false,
+          "groups": [],
+          "meta": {},
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0.62
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "order": "XYZ"
+          },
+          "quaternion": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "components": [],
+          "scripts": [],
+          "children": [],
+          "texturePath": "assets/textures/cargo_crate_a.png",
+          "renderMode": "plane",
+          "width": 0.9,
+          "height": 0.9,
+          "color": "#f59e0b",
+          "opacity": 1
+        }
+      ],
+      "mass": 2,
+      "bodyType": "dynamic",
+      "linearDamping": 0.01,
+      "angularDamping": 0.01,
+      "fixedRotation": false,
+      "allowSleep": true,
+      "linearVelocity": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "angularVelocity": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "type": "RigidBody3DNode",
+      "uuid": "c692b113-6443-475d-b4fb-54b45dd027c6",
+      "name": "DynamicKineticSphere",
+      "uniqueName": false,
+      "editorVisible": true,
+      "editorLocked": false,
+      "processMode": "inherit",
+      "processPriority": 0,
+      "tickRate": 0,
+      "runInEditor": false,
+      "groups": [],
+      "meta": {},
+      "position": {
+        "x": -2.4,
+        "y": 7.8,
+        "z": 0.25
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "order": "XYZ"
+      },
+      "quaternion": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "scale": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      },
+      "components": [],
+      "scripts": [],
+      "children": [
+        {
+          "type": "CollisionShape3DNode",
+          "uuid": "32d1afeb-8256-4f6c-91ea-25ee20686792",
+          "name": "SphereCollider",
+          "uniqueName": false,
+          "editorVisible": true,
+          "editorLocked": false,
+          "processMode": "inherit",
+          "processPriority": 0,
+          "tickRate": 0,
+          "runInEditor": false,
+          "groups": [],
+          "meta": {},
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "order": "XYZ"
+          },
+          "quaternion": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "components": [],
+          "scripts": [],
+          "children": [],
+          "shapeType": "Sphere",
+          "dimensions": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "halfExtents": {
+            "x": 0.5,
+            "y": 0.5,
+            "z": 0.5
+          },
+          "radius": 0.65
+        },
+        {
+          "type": "Sprite3DNode",
+          "uuid": "90d720b4-d3e7-44cc-8621-af9b31dfcace",
+          "name": "CoreSpriteGlow",
+          "uniqueName": false,
+          "editorVisible": true,
+          "editorLocked": false,
+          "processMode": "inherit",
+          "processPriority": 0,
+          "tickRate": 0,
+          "runInEditor": false,
+          "groups": [],
+          "meta": {},
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "order": "XYZ"
+          },
+          "quaternion": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "components": [],
+          "scripts": [],
+          "children": [],
+          "texturePath": "assets/textures/sphere_core.png",
+          "renderMode": "sprite",
+          "width": 0.85,
+          "height": 0.85,
+          "color": "#10b981",
+          "opacity": 1
+        }
+      ],
+      "mass": 1.5,
+      "bodyType": "dynamic",
+      "linearDamping": 0.01,
+      "angularDamping": 0.01,
+      "fixedRotation": false,
+      "allowSleep": true,
+      "linearVelocity": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "angularVelocity": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "type": "RigidBody3DNode",
+      "uuid": "94d616a3-e095-4644-a942-e092404dbe76",
+      "name": "CompoundPhysicsRig",
+      "uniqueName": false,
+      "editorVisible": true,
+      "editorLocked": false,
+      "processMode": "inherit",
+      "processPriority": 0,
+      "tickRate": 0,
+      "runInEditor": false,
+      "groups": [],
+      "meta": {},
+      "position": {
+        "x": 1.4,
+        "y": 4.5,
+        "z": -0.4
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "order": "XYZ"
+      },
+      "quaternion": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "scale": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      },
+      "components": [],
+      "scripts": [],
+      "children": [
+        {
+          "type": "CollisionShape3DNode",
+          "uuid": "5b11f349-95d7-49f4-a7d3-6c0ede465e95",
+          "name": "BaseBoxShape",
+          "uniqueName": false,
+          "editorVisible": true,
+          "editorLocked": false,
+          "processMode": "inherit",
+          "processPriority": 0,
+          "tickRate": 0,
+          "runInEditor": false,
+          "groups": [],
+          "meta": {},
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "order": "XYZ"
+          },
+          "quaternion": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "components": [],
+          "scripts": [],
+          "children": [],
+          "shapeType": "Box",
+          "dimensions": {
+            "x": 1.4,
+            "y": 1,
+            "z": 1.4
+          },
+          "halfExtents": {
+            "x": 0.7,
+            "y": 0.5,
+            "z": 0.7
+          },
+          "radius": 0.5
+        },
+        {
+          "type": "CollisionShape3DNode",
+          "uuid": "f1e53862-2fe7-486f-a1c2-bc5df2a29e4b",
+          "name": "TopSphereShape",
+          "uniqueName": false,
+          "editorVisible": true,
+          "editorLocked": false,
+          "processMode": "inherit",
+          "processPriority": 0,
+          "tickRate": 0,
+          "runInEditor": false,
+          "groups": [],
+          "meta": {},
+          "position": {
+            "x": 0,
+            "y": 0.65,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "order": "XYZ"
+          },
+          "quaternion": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "components": [],
+          "scripts": [],
+          "children": [],
+          "shapeType": "Sphere",
+          "dimensions": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "halfExtents": {
+            "x": 0.5,
+            "y": 0.5,
+            "z": 0.5
+          },
+          "radius": 0.55
+        }
+      ],
+      "mass": 3,
+      "bodyType": "dynamic",
+      "linearDamping": 0.01,
+      "angularDamping": 0.01,
+      "fixedRotation": false,
+      "allowSleep": true,
+      "linearVelocity": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "angularVelocity": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Minimalist 3D Game Engine Core",
+  "description": "ECS/Node-based 3D Game Engine core built with pure JavaScript, Three.js, cannon-es, and atomic Node.js scene serialization.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

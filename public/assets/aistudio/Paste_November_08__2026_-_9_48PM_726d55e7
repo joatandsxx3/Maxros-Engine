@@ -1,0 +1,1529 @@
+# Maxros Engine — Sistema Integrado de Nodes, Cenas, Scripts JavaScript e Editor
+
+**Tipo:** Especificação técnica e funcional de implementação  
+**Projeto:** Maxros Engine  
+**Escopo:** Editor, hierarquia de Nodes, gerenciamento de cenas, instanciação, scripts, ciclo de vida, Input, visualização e Runtime.  
+**Objetivo:** Implementar um fluxo completo de criação, organização, edição e execução de projetos utilizando Nodes e cenas reutilizáveis.
+
+---
+
+# 1. Diretriz geral da arquitetura
+
+A Maxros Engine deverá possuir uma arquitetura unificada na qual os Nodes representam os elementos fundamentais do projeto.
+
+Cenas, scripts, hierarquias, propriedades e recursos deverão trabalhar em conjunto, sem manter sistemas paralelos para representar o mesmo objeto.
+
+A implementação deverá respeitar os seguintes princípios:
+
+1. O Node é a unidade fundamental da hierarquia e da execução.
+2. Classes JavaScript estendem diretamente os tipos reais de Nodes.
+3. O ciclo de vida pertence aos Nodes, não a um sistema separado de scripts.
+4. Uma cena pode ser utilizada como filha de outra cena.
+5. Uma cena instanciada aparece como um único elemento na hierarquia externa, mas mantém toda sua estrutura interna no Runtime.
+6. Cada instância possui identidade e estado independentes.
+7. A cena principal pode utilizar qualquer tipo válido de Node como raiz.
+8. A câmera não é obrigatória para iniciar a execução.
+9. O editor de scripts deve fazer parte do ambiente principal de desenvolvimento.
+10. O editor de cenas deve permitir alternar entre documentos abertos sem perder o estado de edição.
+11. Os dados das cenas e as referências aos recursos devem ser persistentes.
+12. O Runtime deve utilizar os sistemas existentes da engine, sem criar um segundo loop de execução.
+
+**Regra fundamental:** não implementar um objeto de comportamento separado que seja anexado a um Node para executar scripts. O próprio Node deverá ser instanciado utilizando sua classe JavaScript estendida.
+
+## 1.1. Levantamento obrigatório antes da implementação
+
+Antes de modificar o código, analisar a arquitetura atual da Maxros Engine.
+
+Identificar:
+
+- Como os Nodes são definidos.
+- Como os Nodes são criados.
+- Como funciona a hierarquia.
+- Como as cenas são carregadas e salvas.
+- Como o Runtime instancia os elementos.
+- Como funciona o loop principal.
+- Como o editor comunica alterações ao Runtime.
+- Como os recursos são identificados e carregados.
+- Como funcionam as propriedades e transformações.
+- Como os eventos de teclado e mouse são tratados.
+- Como o projeto resolve caminhos de arquivos.
+- Como funciona a visualização 3D.
+- Como os testes existentes estão organizados.
+
+A implementação deverá utilizar os sistemas já existentes sempre que possível.
+
+Não presumir nomes de classes, arquivos, funções ou estruturas sem encontrá-los no código.
+
+Não criar um segundo sistema de hierarquia, gerenciamento de recursos, ciclo de vida, Input ou carregamento de cenas se já existir uma estrutura responsável por essas funções.
+
+Preservar a arquitetura atual baseada em Node.js, Vite, Express, Three.js e cannon-es, respeitando a separação existente entre editor, servidor e Runtime.
+
+Preservar os testes existentes e executar a suíte completa após as alterações.
+
+---
+
+# 2. Sistema de Nodes
+
+Os Nodes são os elementos fundamentais utilizados para construir cenas e representar objetos, estruturas, câmeras, elementos visuais e demais funcionalidades da engine.
+
+Cada Node deverá possuir identidade própria e pertencer a uma hierarquia.
+
+## 2.1. Estrutura dos Nodes
+
+Um Node deverá manter, conforme seu tipo:
+
+- Identificador único.
+- Nome.
+- Tipo.
+- Referência ao Node pai.
+- Lista de Nodes filhos.
+- Propriedades próprias.
+- Estado de ativação.
+- Estado de visibilidade, quando aplicável.
+- Transformação local, quando aplicável.
+- Referências a recursos utilizados.
+- Estado de inicialização.
+- Estado de execução.
+
+Os Nodes deverão manter suas características e funcionalidades originais.
+
+A extensão por JavaScript não deverá eliminar propriedades, métodos ou comportamentos nativos do tipo de Node.
+
+## 2.2. Hierarquia
+
+A hierarquia deverá permitir construir estruturas como:
+
+```text
+MainScene
+├── World
+│   ├── Environment
+│   └── Player
+│       └── Camera
+│
+├── Enemies
+│   ├── Enemy_A
+│   └── Enemy_B
+│
+└── Interface
+```
+
+Cada Node deverá preservar sua relação hierárquica e suas transformações.
+
+A engine deverá manter a distinção entre transformação local e transformação global, respeitando a arquitetura atual.
+
+Reparentear um Node deverá preservar corretamente sua transformação global quando essa for a operação solicitada.
+
+## 2.3. Tipos de Nodes
+
+A seleção e a criação deverão utilizar os tipos reais disponibilizados pela Maxros Engine.
+
+Não criar tipos artificiais apenas para atender à interface do editor.
+
+A compatibilidade entre Nodes pais e filhos deverá respeitar as regras de hierarquia existentes.
+
+---
+
+# 3. Sistema de extensão de Nodes por JavaScript
+
+O sistema de scripts deverá funcionar por herança direta das classes de Nodes.
+
+Um arquivo JavaScript associado a um Node deverá definir uma classe que estende o tipo concreto correspondente.
+
+Não deverá existir uma instância separada de Script anexada ao Node.
+
+## 3.1. Regra de herança
+
+Se o Node selecionado for do tipo `Node3D`, sua classe JavaScript deverá estender `Node3D`.
+
+Se for de outro tipo, deverá estender o tipo correspondente.
+
+Exemplo:
+
+```javascript
+export default class PlayerController extends Node3D {
+    start() {
+        console.log("Player iniciado");
+    }
+
+    update(delta) {
+        // Atualização do jogador
+    }
+}
+```
+
+A classe deverá herdar as propriedades e os métodos do Node original.
+
+O resultado deverá ser um único objeto que representa o Node e contém o comportamento definido pela classe JavaScript.
+
+Não implementar:
+
+```javascript
+const node = new Node3D();
+const script = new PlayerController();
+
+node.attachScript(script);
+```
+
+Esse modelo não deverá ser utilizado como arquitetura do sistema.
+
+O comportamento correto é instanciar o próprio Node utilizando a classe estendida.
+
+## 3.2. Identidade do Node
+
+A extensão não poderá criar uma segunda identidade para representar o mesmo elemento.
+
+O Node deverá continuar sendo o elemento utilizado por:
+
+- Hierarquia.
+- Inspetor.
+- Transformações.
+- Referências.
+- Runtime.
+- Física, quando aplicável.
+- Renderização.
+- Ciclo de vida.
+- Scripts de outros Nodes.
+
+A classe JavaScript deverá complementar e especializar o Node, não substituí-lo por um objeto incompatível.
+
+## 3.3. Associação opcional
+
+Nem todo Node precisará possuir uma classe JavaScript própria.
+
+A associação deverá ser opcional.
+
+Nodes sem classe associada deverão funcionar normalmente utilizando suas implementações nativas.
+
+Quando houver uma classe associada, a engine deverá instanciar o Node utilizando essa classe.
+
+## 3.4. Compatibilidade
+
+Antes de utilizar uma classe, verificar se ela estende um tipo compatível com o Node ao qual será associada.
+
+Não permitir que uma classe destinada a um tipo incompatível seja instanciada silenciosamente.
+
+Em caso de incompatibilidade, apresentar uma mensagem que identifique:
+
+- O arquivo JavaScript.
+- O tipo esperado.
+- O tipo encontrado.
+- O Node afetado.
+
+A validação deverá acontecer antes da instanciação definitiva.
+
+## 3.5. Uso de `super`
+
+Classes estendidas poderão sobrescrever métodos e utilizar `super` quando necessário.
+
+A engine deverá preservar as operações internas obrigatórias dos Nodes.
+
+Não permitir que uma sobrescrita acidental elimine operações essenciais de inicialização, atualização, destruição ou gerenciamento interno.
+
+Quando a arquitetura exigir a execução de operações nativas, garantir sua chamada de maneira consistente.
+
+---
+
+# 4. Ciclo de vida dos Nodes
+
+Os métodos de ciclo de vida pertencem aos Nodes.
+
+Não criar um ciclo de vida separado para os scripts.
+
+Nodes nativos e Nodes estendidos deverão participar do mesmo sistema de execução.
+
+## 4.1. Métodos disponíveis
+
+### `start()`
+
+Executado uma única vez quando o Node entra efetivamente no mundo e está preparado para funcionar.
+
+Deverá acontecer depois que a hierarquia necessária estiver construída e as referências iniciais estiverem resolvidas.
+
+Não executar novamente ao simplesmente desativar e reativar o Node.
+
+### `input(event)`
+
+Recebe eventos de entrada direcionados ao Node, conforme as regras do sistema centralizado de Input.
+
+Poderá ser utilizado para detectar pressionamento, soltura e manutenção de entradas.
+
+Deverá ser opcional.
+
+### `update(delta)`
+
+Executado durante o ciclo de atualização dos Nodes habilitados.
+
+O parâmetro `delta` deverá representar o tempo transcorrido desde a última atualização, em segundos.
+
+Deverá ser opcional.
+
+### `onDestroy()`
+
+Executado uma única vez antes da destruição definitiva do Node.
+
+Deverá permitir a limpeza de referências, recursos temporários e estados internos.
+
+Não executar quando o Node for apenas desativado ou temporariamente retirado da atualização.
+
+## 4.2. Métodos opcionais
+
+Não obrigar o desenvolvedor a declarar todos os métodos.
+
+Um arquivo recém-criado poderá começar assim:
+
+```javascript
+export default class NewScript extends Node3D {
+
+}
+```
+
+O desenvolvedor adicionará somente os métodos necessários.
+
+Não gerar métodos vazios automaticamente.
+
+## 4.3. Ordem de inicialização
+
+A inicialização deverá seguir uma ordem determinística.
+
+1. Carregar os dados da cena.
+2. Construir a hierarquia.
+3. Instanciar os Nodes.
+4. Instanciar as cenas filhas.
+5. Resolver referências.
+6. Preparar os recursos necessários.
+7. Inicializar o Node que representa a raiz da cena.
+8. Inicializar os demais Nodes seguindo uma ordem determinística.
+9. Liberar a cena para execução normal.
+
+A engine deverá garantir que um Node não tente utilizar referências essenciais antes que elas estejam disponíveis.
+
+## 4.4. Nodes criados dinamicamente
+
+Nodes criados durante a execução deverão utilizar o mesmo processo de inicialização.
+
+Após serem adicionados corretamente à hierarquia:
+
+- Preparar o Node.
+- Resolver suas referências.
+- Inicializar seus recursos.
+- Executar `start()` uma única vez.
+- Integrá-lo ao ciclo de atualização.
+
+Não implementar um caminho de inicialização diferente para Nodes criados dinamicamente.
+
+## 4.5. Estados dos Nodes
+
+O sistema deverá distinguir:
+
+**Ativo:** participa normalmente da execução.
+
+**Inativo:** permanece na hierarquia, mas não participa das operações de execução que dependem de ativação.
+
+**Pausado:** mantém seu estado, mas não recebe atualizações normais enquanto durar a pausa.
+
+**Destruído:** foi removido definitivamente e teve seu processo de destruição executado.
+
+Desativar ou pausar um Node não deverá chamar `onDestroy()`.
+
+Reativá-lo não deverá chamar `start()` novamente.
+
+A destruição definitiva deverá executar `onDestroy()` uma única vez.
+
+---
+
+# 5. Sistema centralizado de Input
+
+A engine deverá possuir um sistema centralizado responsável por capturar, interpretar e distribuir eventos de entrada.
+
+Os Nodes não deverão precisar criar seus próprios listeners globais de teclado ou mouse para utilizar entradas comuns do jogo.
+
+## 5.1. Responsabilidades
+
+O sistema de Input deverá:
+
+- Capturar eventos físicos de teclado.
+- Capturar eventos de mouse.
+- Capturar entradas de dispositivos compatíveis com a arquitetura.
+- Manter o estado das entradas.
+- Converter entradas físicas em ações lógicas.
+- Distribuir eventos aos Nodes habilitados.
+- Respeitar foco e prioridade.
+- Permitir consumo de eventos.
+- Impedir que a interface do editor provoque entradas indevidas no jogo.
+
+## 5.2. Estados das entradas
+
+O sistema deverá distinguir:
+
+- `pressed`: entrada pressionada.
+- `released`: entrada liberada.
+- `held`: entrada mantida pressionada.
+
+Também deverá permitir consultar o estado atual e as transições de entrada.
+
+## 5.3. API de consulta
+
+Disponibilizar uma API centralizada equivalente a:
+
+```javascript
+Input.is_action_pressed("move_right");
+
+Input.is_action_just_pressed("jump");
+
+Input.is_action_just_released("jump");
+```
+
+As ações deverão ser lógicas, não necessariamente vinculadas diretamente a uma tecla fixa.
+
+A configuração de mapeamento deverá permitir associar diferentes entradas físicas a uma mesma ação.
+
+## 5.4. Distribuição
+
+Os eventos deverão ser distribuídos aos Nodes conforme as regras de prioridade, foco, ativação e contexto.
+
+Um evento consumido não deverá continuar sendo distribuído a destinatários posteriores quando a política de consumo determinar seu bloqueio.
+
+O editor deverá ter prioridade sobre o jogo quando o foco estiver em campos de texto, menus, atalhos de edição ou no próprio editor de scripts.
+
+Não permitir que digitar código provoque ações de jogo.
+
+---
+
+# 6. Sistema de associação de scripts no Inspetor
+
+O Inspetor deverá permitir associar um arquivo JavaScript ao Node selecionado.
+
+A funcionalidade deverá ser simples, acessível e visualmente integrada à interface atual.
+
+## 6.1. Botão de associação
+
+Na região superior das propriedades do Node, disponibilizar um botão com ícone de pergaminho.
+
+Estados visuais:
+
+- **Sem associação:** ícone neutro.
+- **Associação válida:** ícone verde.
+- **Referência inválida:** estado de atenção.
+
+O botão deverá apresentar um tooltip explicativo ao passar o mouse.
+
+## 6.2. Ações disponíveis
+
+Ao clicar, permitir:
+
+- Criar um novo arquivo JavaScript.
+- Selecionar um arquivo existente.
+- Abrir o arquivo associado.
+- Substituir a associação.
+- Remover a associação.
+
+A seleção deverá considerar somente arquivos compatíveis com o tipo do Node.
+
+## 6.3. Criação automática
+
+Ao criar um script pelo Inspetor, gerar uma classe que estenda automaticamente o tipo concreto do Node selecionado.
+
+Exemplo para um `Node3D`:
+
+```javascript
+export default class NewScript extends Node3D {
+
+}
+```
+
+O nome da classe deverá ser derivado de um nome válido, sem depender de caracteres inválidos para JavaScript.
+
+Não gerar métodos de ciclo de vida vazios.
+
+## 6.4. Arquivos compartilhados
+
+Um mesmo arquivo JavaScript poderá ser associado a vários Nodes compatíveis.
+
+Cada Node deverá possuir sua própria instância concreta da classe.
+
+O compartilhamento será do código, não do estado de execução.
+
+Se o arquivo possuir uma variável:
+
+```javascript
+export default class Enemy extends Node3D {
+    constructor() {
+        super();
+        this.health = 100;
+    }
+}
+```
+
+Cada Node deverá possuir seu próprio valor de `health`.
+
+A implementação deverá respeitar o mecanismo de instanciação e construção de Nodes já existente.
+
+---
+
+# 7. Editor integrado de scripts
+
+A Maxros Engine deverá possuir um ambiente próprio para criação, edição e gerenciamento dos arquivos JavaScript.
+
+Esse ambiente deverá estar integrado ao editor principal.
+
+## 7.1. Navegação superior
+
+Adicionar uma aba de navegação chamada **Scripts**, posicionada junto às demais áreas principais do editor, como o ambiente 3D.
+
+A aba deverá permitir alternar entre:
+
+- Ambiente de edição 3D.
+- Ambiente de edição de scripts.
+
+A troca não deverá fechar o ambiente anterior nem perder seu estado.
+
+## 7.2. Explorador de scripts
+
+O ambiente deverá possuir um explorador lateral dedicado aos arquivos JavaScript do projeto.
+
+Deverá apresentar:
+
+- Arquivos `.js`.
+- Pastas que contenham scripts.
+- Estrutura de diretórios.
+- Seleção de arquivos.
+- Criação de pastas.
+- Criação de arquivos.
+- Renomeação.
+- Exclusão.
+- Movimentação.
+- Abertura de arquivos.
+
+O explorador deverá apresentar somente os arquivos relevantes ao ambiente de scripts, sem duplicar o explorador geral de recursos do projeto.
+
+A organização deverá respeitar os diretórios reais do projeto.
+
+## 7.3. Editor central
+
+Disponibilizar um editor de código com:
+
+- Realce de sintaxe JavaScript.
+- Numeração de linhas.
+- Indicação da linha atual.
+- Identificação de erros de sintaxe.
+- Indicação de alterações não salvas.
+- Indentação.
+- Seleção e edição de texto.
+- Localização de trechos.
+- Abas de arquivos abertos.
+
+A interface deverá ser moderna, limpa e integrada à identidade visual da Maxros Engine.
+
+Não construir um editor de código improvisado baseado apenas em um campo de texto simples.
+
+## 7.4. Abas de scripts
+
+Permitir manter vários arquivos abertos simultaneamente.
+
+Cada aba deverá representar um arquivo.
+
+Deverá ser possível alternar entre os arquivos sem perder alterações temporárias.
+
+Quando um arquivo possuir alterações não salvas, indicar isso visualmente.
+
+Ao fechar uma aba modificada, solicitar confirmação antes de descartar as alterações.
+
+## 7.5. Erros
+
+O editor deverá identificar problemas de sintaxe e apresentar mensagens úteis.
+
+Quando possível, informar:
+
+- Arquivo.
+- Linha.
+- Coluna.
+- Descrição do problema.
+
+Não confundir erros de sintaxe com erros de execução.
+
+Os dois tipos deverão ser identificados separadamente.
+
+---
+
+# 8. Integração entre Scripts e ambiente 3D
+
+Os ambientes de Scripts e 3D deverão trabalhar de forma integrada.
+
+## 8.1. Abrir script pelo Node
+
+Ao selecionar um Node que possua classe JavaScript associada, o desenvolvedor deverá poder abrir diretamente seu arquivo.
+
+A ação deverá:
+
+1. Identificar a associação.
+2. Abrir a aba Scripts, se necessário.
+3. Abrir o arquivo correspondente.
+4. Selecionar a aba do arquivo.
+5. Preservar o estado do ambiente 3D.
+
+## 8.2. Retornar ao Node
+
+O editor deverá manter a possibilidade de retornar ao Node que originou a abertura do arquivo.
+
+Quando possível, preservar a seleção do Node no ambiente 3D.
+
+## 8.3. Associação inválida
+
+Se o arquivo tiver sido movido, removido ou estiver inacessível:
+
+- Não descartar silenciosamente a associação.
+- Identificar o recurso ausente.
+- Apresentar um estado de atenção.
+- Permitir localizar ou substituir o arquivo.
+
+## 8.4. Referências persistentes
+
+A associação deverá ser salva nos dados da cena usando a referência de recurso apropriada.
+
+Não armazenar o conteúdo completo do arquivo JavaScript dentro do JSON da cena.
+
+O código deverá permanecer em seu próprio arquivo.
+
+---
+
+# 9. Gerenciamento de arquivos e recursos
+
+O sistema de scripts deverá utilizar o gerenciamento de recursos da Maxros Engine.
+
+Não criar um segundo sistema independente de resolução de caminhos.
+
+## 9.1. Referências
+
+Utilizar as referências de recursos já definidas pela arquitetura do projeto.
+
+Quando aplicável, respeitar os identificadores UUID e os caminhos virtuais existentes:
+
+- `project://`
+- `engine://`
+- `user://`
+
+O Runtime e o editor deverão resolver recursos por meio do contexto ativo do projeto.
+
+## 9.2. Movimentação e renomeação
+
+Ao mover ou renomear um arquivo JavaScript:
+
+- Atualizar as referências necessárias.
+- Preservar a identidade do recurso quando aplicável.
+- Manter associações de Nodes.
+- Evitar referências quebradas.
+- Atualizar o explorador.
+- Atualizar as abas abertas.
+
+A movimentação de arquivos não deverá causar perda de código.
+
+## 9.3. Exclusão
+
+Antes de excluir um arquivo associado a Nodes:
+
+- Identificar suas associações.
+- Informar que existem Nodes dependentes.
+- Solicitar confirmação.
+- Tratar as referências após a exclusão.
+
+Não excluir silenciosamente um recurso em utilização.
+
+## 9.4. Edição externa
+
+Os arquivos deverão continuar sendo arquivos JavaScript convencionais.
+
+O desenvolvedor poderá editá-los em ferramentas externas.
+
+O editor deverá detectar alterações externas e atualizar o conteúdo quando for seguro.
+
+Se houver alterações não salvas no editor interno e uma modificação externa ocorrer simultaneamente, apresentar uma situação de conflito.
+
+Não sobrescrever alterações silenciosamente.
+
+---
+
+# 10. Ciclo de vida e carregamento de scripts
+
+O Runtime deverá carregar as classes JavaScript associadas aos Nodes e utilizá-las na construção dos próprios Nodes.
+
+## 10.1. Carregamento
+
+O processo deverá:
+
+1. Ler os dados da cena.
+2. Identificar os tipos de Nodes.
+3. Identificar as classes associadas.
+4. Resolver os arquivos.
+5. Validar compatibilidade.
+6. Preparar as classes.
+7. Instanciar os Nodes utilizando as classes estendidas.
+8. Construir a hierarquia.
+9. Resolver referências.
+10. Executar o ciclo de vida.
+
+Não anexar objetos de comportamento separados.
+
+## 10.2. Isolamento de erros
+
+Um erro em uma classe JavaScript não poderá derrubar toda a engine.
+
+O tratamento deverá identificar:
+
+- Arquivo responsável.
+- Node afetado.
+- Instância afetada.
+- Método em execução.
+- Mensagem de erro.
+- Stack trace, quando disponível.
+
+Sempre que possível, interromper ou isolar somente a execução do Node afetado.
+
+Não permitir que uma exceção individual interrompa o ciclo de atualização de todos os demais Nodes.
+
+## 10.3. Hot reload
+
+Salvar um arquivo não deverá reconstruir automaticamente todos os Nodes que utilizam aquela classe.
+
+A implementação deverá evitar perda de estado de execução.
+
+As alterações poderão ser aplicadas a novas instâncias ou em um ponto seguro de reinicialização, conforme o mecanismo de recarga adotado.
+
+Não executar `start()` novamente em instâncias existentes sem uma operação explícita de reinicialização.
+
+---
+
+# 11. Sistema de cenas
+
+O editor deverá permitir criar, abrir, salvar e organizar cenas de maneira independente.
+
+Uma cena deverá representar uma hierarquia completa de Nodes.
+
+Os arquivos de cena deverão continuar utilizando o formato de dados adotado pela Maxros Engine, preservando a estrutura JSON, o versionamento e os mecanismos de salvamento existentes.
+
+## 11.1. Cena independente
+
+Cada cena deverá possuir:
+
+- Identidade própria.
+- Arquivo próprio.
+- Node raiz.
+- Hierarquia interna.
+- Propriedades dos Nodes.
+- Referências a recursos.
+- Referências a classes JavaScript.
+- Configurações necessárias para reconstrução.
+
+## 11.2. Qualquer Node como raiz
+
+Não exigir um tipo específico de Node para representar a raiz de uma cena.
+
+A cena poderá começar com qualquer Node válido.
+
+O editor deverá reconhecer o tipo real da raiz e apresentar as propriedades e funcionalidades compatíveis.
+
+Não criar um tipo de Node artificial apenas para representar obrigatoriamente uma cena.
+
+## 11.3. Salvamento
+
+Cada cena deverá ser salva independentemente.
+
+Preservar:
+
+- Identificadores.
+- Referências.
+- Hierarquia.
+- Propriedades.
+- Associações de scripts.
+- Recursos utilizados.
+
+O salvamento deverá utilizar o mecanismo seguro já existente, evitando corrupção em caso de interrupção.
+
+---
+
+# 12. Cena principal do projeto
+
+O desenvolvedor deverá poder escolher qual cena será carregada quando o jogo for executado.
+
+## 12.1. Seleção
+
+Disponibilizar nas configurações do projeto um seletor de recursos para escolher a cena principal.
+
+Qualquer cena válida poderá ser selecionada.
+
+Não exigir que ela possua um tipo específico de Node como raiz.
+
+Não exigir câmera.
+
+## 12.2. Persistência
+
+A configuração deverá ser persistida no arquivo de projeto utilizando a referência de recurso correspondente.
+
+Na arquitetura atual, respeitar o formato de configuração `maxros.project.json` e a referência `main_scene` baseada no identificador do recurso.
+
+A configuração deverá sobreviver ao fechamento e à reabertura do projeto.
+
+## 12.3. Execução
+
+Ao executar o projeto:
+
+1. Resolver a referência da cena principal.
+2. Carregar a cena.
+3. Construir sua hierarquia.
+4. Instanciar suas cenas filhas.
+5. Resolver os recursos.
+6. Preparar os Nodes.
+7. Detectar câmeras disponíveis.
+8. Inicializar o ciclo de vida.
+9. Iniciar a execução normal.
+
+Se a cena principal estiver ausente ou inválida, apresentar um erro compreensível e não tentar carregar silenciosamente outra cena.
+
+---
+
+# 13. Sistema de câmeras e detecção automática
+
+A câmera não deverá ser obrigatória para iniciar o jogo.
+
+A engine deverá procurar câmeras disponíveis em toda a hierarquia de execução.
+
+## 13.1. Busca recursiva
+
+A busca deverá considerar:
+
+- Câmeras na raiz.
+- Câmeras filhas.
+- Câmeras em Nodes descendentes.
+- Câmeras dentro de cenas instanciadas.
+- Câmeras dentro de cenas instanciadas em outros níveis.
+- Câmeras habilitadas e disponíveis.
+
+Não limitar a busca à hierarquia superficial apresentada no editor.
+
+## 13.2. Seleção automática
+
+Quando existir uma única câmera válida, utilizá-la automaticamente.
+
+Quando existirem várias câmeras, utilizar uma regra determinística de seleção, respeitando o sistema de prioridade e ativação de câmeras.
+
+O desenvolvedor deverá poder controlar explicitamente a câmera ativa.
+
+A engine não deverá trocar arbitrariamente entre câmeras durante a execução.
+
+## 13.3. Ausência de câmera
+
+Se nenhuma câmera for encontrada:
+
+- Iniciar o jogo normalmente.
+- Carregar a cena.
+- Instanciar os Nodes.
+- Executar as classes JavaScript.
+- Manter o ciclo de vida funcionando.
+- Não encerrar o Runtime.
+- Não tratar a ausência como erro fatal.
+
+O jogo simplesmente não terá uma visualização de câmera válida naquele momento.
+
+O editor poderá apresentar uma indicação de ausência de câmera.
+
+## 13.4. Câmera e preview do editor
+
+A câmera utilizada para executar o jogo e a câmera utilizada para navegar pelo editor deverão ser independentes.
+
+O editor deverá conseguir visualizar e manipular uma cena mesmo quando ela não possuir uma câmera de execução.
+
+O preview deverá utilizar os recursos de visualização próprios do ambiente de edição.
+
+Não criar uma câmera de jogo automaticamente apenas para permitir a visualização no editor.
+
+---
+
+# 14. Instanciação de cenas como Nodes filhos
+
+Uma cena deverá poder ser adicionada como filha de outra cena.
+
+Essa funcionalidade permitirá reutilizar estruturas completas sem duplicar seus arquivos.
+
+## 14.1. Adicionar uma cena
+
+O desenvolvedor deverá poder selecionar uma cena existente no projeto e adicioná-la à hierarquia da cena atual.
+
+A operação deverá criar uma instância vinculada à cena de origem.
+
+Exemplo:
+
+```text
+MainScene
+├── World
+├── Player
+├── House
+└── Interface
+```
+
+Nesse exemplo, `House` representa uma cena completa, com seus próprios Nodes internos.
+
+## 14.2. Representação na hierarquia externa
+
+A cena instanciada deverá aparecer como um único elemento na hierarquia da cena pai.
+
+Não expandir automaticamente seus Nodes internos.
+
+Exemplo:
+
+```text
+MainScene
+├── World
+│   ├── Terrain
+│   └── Props
+│
+├── House
+│
+└── Player
+```
+
+Mesmo que `House` possua dezenas de Nodes internamente, o editor externo deverá apresentar apenas a instância.
+
+Essa encapsulação serve para organizar a árvore e não deverá alterar o funcionamento interno da cena.
+
+## 14.3. Comportamento como Node
+
+A instância deverá se comportar como um Node normal na hierarquia externa.
+
+Deverá possuir:
+
+- Identidade própria.
+- Nome próprio.
+- Transformação própria, quando compatível.
+- Estado de ativação.
+- Estado de visibilidade.
+- Seleção.
+- Renomeação.
+- Exclusão.
+- Reorganização na hierarquia.
+- Propriedades locais compatíveis.
+
+A instância deverá herdar o comportamento estrutural do Node raiz da cena de origem.
+
+Não criar um objeto de comportamento separado para representar a cena.
+
+A representação de cena instanciada deverá integrar-se à hierarquia de Nodes existente.
+
+## 14.4. Nome da instância
+
+O nome da instância deverá ser independente do nome do arquivo original.
+
+Exemplo:
+
+```text
+Arquivo de origem: EnemyScene
+
+Instâncias:
+├── Boss
+├── Guard_A
+└── Guard_B
+```
+
+Renomear `Boss` não deverá alterar o nome de `EnemyScene` nem o das demais instâncias.
+
+## 14.5. Identidade independente
+
+Cada instância deverá possuir um identificador próprio.
+
+Duas instâncias que utilizam a mesma cena de origem não poderão compartilhar estado de execução.
+
+Cada uma deverá possuir:
+
+- Hierarquia interna independente.
+- Nodes internos independentes.
+- Transformações independentes.
+- Variáveis independentes.
+- Estados independentes.
+- Instâncias independentes das classes JavaScript.
+
+A cena original será compartilhada como recurso, mas não como estado mutável de execução.
+
+## 14.6. Referência à origem
+
+O arquivo da cena pai deverá armazenar uma referência ao recurso da cena de origem e as configurações próprias da instância.
+
+Não duplicar integralmente a hierarquia da cena original dentro da cena pai.
+
+A referência deverá utilizar o sistema de recursos existente, incluindo UUID quando aplicável.
+
+---
+
+# 15. Edição de cenas instanciadas
+
+Uma cena instanciada deverá poder ser aberta e editada independentemente da cena pai.
+
+## 15.1. Ícone de claquete
+
+Na hierarquia externa, toda instância de cena deverá apresentar um pequeno ícone de claquete à direita do nome.
+
+Esse ícone deverá:
+
+- Ser discreto.
+- Permanecer alinhado à direita.
+- Ter área clicável própria.
+- Não substituir o ícone do tipo de Node.
+- Apresentar tooltip explicativo.
+- Indicar que o elemento representa uma cena instanciada.
+
+O nome da instância deverá continuar sendo a área principal de seleção do Node.
+
+O clique na claquete deverá executar a ação de abrir a cena de origem.
+
+## 15.2. Abrir em uma aba superior
+
+Ao clicar na claquete, abrir a cena de origem em uma nova aba na região superior do editor.
+
+Exemplo:
+
+```text
+[ MainScene ] [ House ] [ Character ] [ Enemy ]
+```
+
+Cada aba deverá representar uma cena aberta.
+
+Não abrir uma janela externa.
+
+Não substituir a cena pai.
+
+Não destruir o estado de edição da cena anterior.
+
+## 15.3. Navegação entre cenas
+
+O desenvolvedor deverá conseguir alternar entre as abas abertas.
+
+Cada cena deverá preservar:
+
+- Hierarquia.
+- Seleção atual.
+- Estado de expansão da árvore.
+- Alterações não salvas.
+- Estado do Inspetor.
+- Posição de visualização do ambiente 3D, quando possível.
+
+A troca de abas não deverá provocar recarregamento desnecessário dos documentos.
+
+## 15.4. Edição da origem
+
+Ao abrir a cena pela claquete, apresentar sua hierarquia interna completa.
+
+O desenvolvedor poderá:
+
+- Adicionar Nodes.
+- Remover Nodes.
+- Renomear Nodes.
+- Reorganizar a hierarquia.
+- Modificar propriedades.
+- Alterar transformações.
+- Associar classes JavaScript.
+- Editar scripts.
+- Modificar recursos.
+- Salvar a cena.
+
+As operações deverão modificar o documento da cena de origem.
+
+Não modificar diretamente a hierarquia da cena pai como se os Nodes internos estivessem inseridos nela.
+
+## 15.5. Preview
+
+A aba da cena deverá possuir seu próprio ambiente de visualização.
+
+O desenvolvedor deverá conseguir visualizar o conteúdo da cena enquanto edita sua hierarquia e propriedades.
+
+A visualização deverá permitir:
+
+- Navegar pelo ambiente.
+- Aproximar e afastar.
+- Selecionar Nodes.
+- Visualizar transformações.
+- Identificar os elementos presentes.
+- Visualizar recursos e objetos da cena.
+
+O preview deverá funcionar independentemente da existência de uma câmera de jogo.
+
+## 15.6. Preservação da cena pai
+
+Abrir uma cena filha não deverá modificar a cena pai.
+
+Ao retornar à aba da cena pai, preservar seu estado anterior.
+
+Se houver alterações não salvas em qualquer aba, elas deverão continuar identificadas.
+
+Fechar uma aba modificada deverá solicitar confirmação antes de descartar alterações.
+
+---
+
+# 16. Alterações locais e propagação entre instâncias
+
+A engine deverá diferenciar claramente as propriedades da cena original e as propriedades próprias de cada instância.
+
+## 16.1. Propriedades locais
+
+Ao selecionar uma cena instanciada na hierarquia externa, o Inspetor deverá apresentar as propriedades disponíveis para aquela instância.
+
+Exemplos:
+
+- Nome.
+- Transformação.
+- Visibilidade.
+- Ativação.
+- Outras propriedades compatíveis com o Node raiz.
+
+Modificar essas propriedades deverá afetar somente a instância selecionada.
+
+## 16.2. Propriedades da origem
+
+Ao abrir a cena de origem pela claquete, as alterações realizadas em sua estrutura deverão ser salvas no arquivo original.
+
+Essas alterações deverão ser refletidas em todas as instâncias que utilizam aquela cena.
+
+Exemplo:
+
+Uma cena `House` é utilizada em três locais.
+
+O desenvolvedor abre `House`, adiciona uma janela e salva.
+
+Resultado:
+
+- As três instâncias recebem a janela.
+- Cada instância mantém sua posição.
+- Cada instância mantém seu nome.
+- Cada instância mantém suas propriedades locais válidas.
+
+## 16.3. Separação dos dados
+
+**Dados da cena original:**
+
+- Hierarquia interna.
+- Tipos dos Nodes.
+- Propriedades padrão.
+- Classes JavaScript.
+- Recursos utilizados.
+- Configurações estruturais.
+
+**Dados da instância:**
+
+- Identificador da instância.
+- Nome na cena pai.
+- Referência à cena original.
+- Transformação local.
+- Propriedades locais sobrescritas.
+- Configurações específicas da instância.
+
+Não duplicar o conteúdo inteiro da origem.
+
+## 16.4. Atualização estrutural
+
+Quando a cena original for salva, a engine deverá atualizar as instâncias que utilizam aquele recurso.
+
+A atualização deverá preservar as configurações locais que ainda forem compatíveis.
+
+Se um Node interno for removido ou modificado na origem, reconciliar as instâncias com a nova estrutura.
+
+Não descartar silenciosamente configurações locais incompatíveis.
+
+Apresentar informações de conflito quando uma alteração não puder ser aplicada com segurança.
+
+## 16.5. Instância independente
+
+Uma instância deverá permanecer vinculada à sua cena original.
+
+Modificar seu nome, posição ou outras propriedades locais não deverá convertê-la em uma cópia independente.
+
+Uma eventual operação de desvinculação ou conversão para uma cena independente deverá ser explícita e separada.
+
+Não implementar essa conversão automaticamente.
+
+---
+
+# 17. Runtime de cenas instanciadas
+
+A hierarquia interna das cenas instanciadas deverá existir integralmente no Runtime.
+
+O fato de o editor apresentar somente um elemento na hierarquia externa não poderá esconder Nodes do sistema de execução.
+
+## 17.1. Processo de carregamento
+
+Ao carregar uma cena:
+
+1. Ler seus dados.
+2. Construir seus Nodes.
+3. Identificar as referências a cenas filhas.
+4. Carregar as cenas de origem.
+5. Criar instâncias independentes.
+6. Construir as hierarquias internas.
+7. Aplicar configurações locais.
+8. Resolver referências.
+9. Detectar câmeras.
+10. Preparar os Nodes para o ciclo de vida.
+
+## 17.2. Ciclo de vida
+
+Todos os Nodes internos deverão participar do ciclo de vida nativo.
+
+As classes JavaScript associadas deverão ser instanciadas normalmente.
+
+Não criar um ciclo de vida exclusivo para cenas instanciadas.
+
+## 17.3. Independência
+
+Instanciar a mesma cena várias vezes deverá produzir estruturas independentes.
+
+A atualização de uma instância não deverá modificar o estado das demais.
+
+Destruir uma instância deverá destruir seus Nodes internos conforme a hierarquia, sem excluir o recurso original.
+
+## 17.4. Busca de recursos e câmeras
+
+Todos os Nodes internos deverão ser acessíveis pelos mecanismos internos da engine.
+
+A busca de câmeras, referências, recursos e outros elementos necessários ao Runtime deverá percorrer as hierarquias completas.
+
+Não depender da representação visual simplificada do editor.
+
+---
+
+# 18. Alterações externas, salvamento e integridade
+
+O editor deverá preservar a integridade dos documentos e dos recursos.
+
+## 18.1. Estado de modificação
+
+Cada cena e cada arquivo JavaScript deverá possuir seu próprio estado de modificação.
+
+Indicar visualmente quando houver alterações não salvas.
+
+## 18.2. Conflitos
+
+Se um arquivo for modificado externamente enquanto estiver aberto no editor:
+
+- Detectar a alteração.
+- Verificar se há modificações locais.
+- Atualizar automaticamente quando não houver conflito.
+- Solicitar uma decisão quando houver conflito.
+- Não sobrescrever conteúdo silenciosamente.
+
+## 18.3. Referências quebradas
+
+Quando uma cena, script ou recurso estiver ausente:
+
+- Preservar a referência original sempre que possível.
+- Apresentar o estado de erro.
+- Identificar o recurso.
+- Permitir localizar novamente o recurso.
+- Não substituir automaticamente por outro arquivo.
+
+## 18.4. Persistência
+
+Salvar corretamente:
+
+- Cena principal.
+- Cenas independentes.
+- Referências entre cenas.
+- Identificadores das instâncias.
+- Nomes locais.
+- Transformações.
+- Propriedades sobrescritas.
+- Associações de scripts.
+- Referências aos recursos.
+
+Respeitar os identificadores UUID e o sistema de metadados existente.
+
+Preservar identificadores durante edições, renomeações e movimentações de recursos, conforme as regras já definidas para o projeto.
+
+---
+
+# 19. Integração entre Editor e Runtime
+
+Editor e Runtime deverão utilizar os mesmos conceitos de Nodes, cenas, recursos e classes.
+
+Não implementar uma representação de edição incompatível com a representação de execução.
+
+O editor poderá manter estados próprios de seleção, visualização e navegação, mas os dados estruturais deverão corresponder ao que o Runtime realmente utiliza.
+
+## 19.1. Operações no editor
+
+Quando o desenvolvedor criar, remover, renomear ou reorganizar um Node, a alteração deverá atualizar o documento da cena.
+
+Quando alterar uma propriedade, atualizar os dados correspondentes.
+
+Quando associar uma classe JavaScript, registrar a referência ao recurso.
+
+Quando adicionar uma cena filha, registrar sua referência e suas configurações locais.
+
+## 19.2. Execução
+
+Ao iniciar o jogo, o Runtime deverá consumir os dados persistidos e construir a estrutura correspondente.
+
+Não depender de objetos temporários existentes somente na interface do editor.
+
+## 19.3. Pausa e simulação
+
+A execução em modo de simulação deverá respeitar os estados de Nodes e cenas.
+
+Ao interromper a simulação, restaurar os estados de edição conforme o comportamento atual do editor.
+
+Não permitir que estados temporários do Runtime sejam gravados acidentalmente nos documentos de edição.
+
+---
+
+# 20. Compatibilidade e preservação do projeto
+
+A implementação deverá preservar os projetos existentes.
+
+Projetos antigos que não possuam scripts, cenas instanciadas ou uma cena principal configurada deverão continuar podendo ser abertos conforme as regras de compatibilidade já existentes.
+
+Não exigir que todo projeto antigo seja convertido manualmente.
+
+## 20.1. Scripts opcionais
+
+A ausência de arquivos JavaScript deverá continuar sendo válida.
+
+Nodes sem scripts deverão funcionar normalmente.
+
+## 20.2. Cenas antigas
+
+Cenas antigas deverão continuar carregando.
+
+Não exigir que todas as cenas sejam reconstruídas para utilizar os novos recursos.
+
+## 20.3. Recursos
+
+Preservar os mecanismos de UUID, caminhos virtuais, metadados e resolução de recursos.
+
+Não introduzir um segundo padrão de identificação.
+
+## 20.4. Testes
+
+Preservar as suítes de testes existentes.
+
+Adicionar testes para:
+
+- Herança de Nodes.
+- Inicialização.
+- Destruição.
+- Input.
+- Associação de scripts.
+- Carregamento de classes.
+- Cenas instanciadas.
+- Independência de instâncias.
+- Câmeras.
+- Cena principal.
+- Salvamento.
+- Renomeação.
+- Referências.
+- Atualização de instâncias.
+- Edição externa.
+- Isolamento de erros.
+
+Não remover testes existentes para facilitar a implementação.
+
+---
+
+# 21. Etapas de implementação
+
+A implementação deverá ocorrer em etapas coerentes, sem deixar funcionalidades desconectadas.
+
+### Etapa 1 — Levantamento e integração arquitetural
+
+- Analisar o sistema atual de Nodes.
+- Analisar o carregamento de cenas.
+- Analisar o Runtime.
+- Identificar o ciclo de atualização.
+- Identificar o gerenciamento de recursos.
+- Identificar o sistema de Input.
+- Identificar os mecanismos de salvamento.
+- Definir os pontos de integração.
+
+### Etapa 2 — Extensão de Nodes por JavaScript
+
+- Implementar carregamento de classes.
+- Implementar validação de herança.
+- Instanciar Nodes com classes estendidas.
+- Integrar os métodos de ciclo de vida.
+- Preservar identidade e funcionalidades dos Nodes.
+- Isolar erros.
+
+### Etapa 3 — Input e ciclo de vida
+
+- Integrar captura de eventos.
+- Implementar estados de entrada.
+- Implementar distribuição.
+- Respeitar foco do editor.
+- Integrar os Nodes ao sistema de atualização.
+
+### Etapa 4 — Editor de scripts
+
+- Criar a aba Scripts.
+- Criar explorador de arquivos.
+- Implementar editor de código.
+- Implementar abas.
+- Implementar associação no Inspetor.
+- Integrar abertura de scripts pelo ambiente 3D.
+- Implementar detecção de alterações externas.
+
+### Etapa 5 — Gerenciamento de cenas
+
+- Implementar seleção da cena principal.
+- Garantir suporte a qualquer tipo válido de Node raiz.
+- Integrar salvamento.
+- Garantir carregamento persistente.
+- Implementar estados de erro para referências inválidas.
+
+### Etapa 6 — Instanciação de cenas
+
+- Permitir adicionar cenas como filhas.
+- Implementar identidade independente.
+- Representar instâncias como elementos únicos na árvore.
+- Preservar hierarquias internas.
+- Implementar propriedades locais.
+- Implementar renomeação independente.
+
+### Etapa 7 — Navegação e edição de cenas instanciadas
+
+- Adicionar claquete.
+- Implementar abertura em abas.
+- Implementar edição da origem.
+- Implementar preview.
+- Preservar estados de edição.
+- Implementar propagação de alterações.
+- Tratar conflitos entre origem e instâncias.
+
+### Etapa 8 — Câmeras e Runtime
+
+- Implementar busca recursiva.
+- Considerar cenas instanciadas.
+- Implementar seleção determinística.
+- Permitir execução sem câmera.
+- Separar visualização de edição e câmera de execução.
+
+### Etapa 9 — Testes e estabilização
+
+- Executar testes existentes.
+- Criar testes das novas funcionalidades.
+- Corrigir incompatibilidades reais.
+- Verificar salvamento e reabertura.
+- Verificar referências.
+- Verificar instâncias múltiplas.
+- Verificar execução.
+- Verificar projetos antigos.
+
+As etapas não deverão servir como justificativa para entregar apenas partes desconectadas. Ao final, todos os sistemas deverão estar integrados e utilizáveis.
+
+---
+
+# 22. Critérios finais de aceitação
+
+A implementação somente poderá ser considerada concluída quando os seguintes comportamentos estiverem funcionando.
+
+## Nodes e scripts
+
+- [ ] Nodes podem utilizar classes JavaScript estendidas.
+- [ ] A classe estende o tipo real correspondente.
+- [ ] Não existe uma instância de comportamento separada.
+- [ ] Nodes nativos continuam funcionando.
+- [ ] Métodos de ciclo de vida são opcionais.
+- [ ] `start()` executa uma vez.
+- [ ] `input(event)` recebe entradas corretamente.
+- [ ] `update(delta)` recebe delta em segundos.
+- [ ] `onDestroy()` executa antes da destruição definitiva.
+- [ ] Pausar e desativar preserva o estado.
+- [ ] Nodes criados dinamicamente utilizam o mesmo ciclo de vida.
+
+## Input
+
+- [ ] Captura centralizada.
+- [ ] Estados pressed, released e held.
+- [ ] Consulta de ações lógicas.
+- [ ] Distribuição correta.
+- [ ] Consumo de eventos.
+- [ ] Foco do editor respeitado.
+
+## Editor de scripts
+
+- [ ] Aba Scripts integrada.
+- [ ] Explorador dedicado.
+- [ ] Criação, renomeação, movimentação e exclusão.
+- [ ] Editor de código funcional.
+- [ ] Realce de sintaxe.
+- [ ] Numeração de linhas.
+- [ ] Abas de arquivos.
+- [ ] Estado de alterações não salvas.
+- [ ] Associação de classes no Inspetor.
+- [ ] Abertura direta do arquivo associado.
+- [ ] Compatibilidade com edição externa.
+- [ ] Referências persistentes.
+
+## Cenas
+
+- [ ] Qualquer tipo válido de Node pode ser raiz.
+- [ ] Cena principal selecionável.
+- [ ] Cena principal persistente.
+- [ ] Cenas independentes podem ser abertas.
+- [ ] Cenas podem ser adicionadas como filhas.
+- [ ] Instâncias possuem identidades independentes.
+- [ ] Instâncias aparecem como um único elemento na árvore externa.
+- [ ] Hierarquias internas permanecem completas no Runtime.
+- [ ] Renomear uma instância não renomeia sua origem.
+
+## Edição de instâncias
+
+- [ ] Claquete exibida ao lado do nome.
+- [ ] Clique abre a origem em uma nova aba.
+- [ ] Cena pai permanece aberta.
+- [ ] Hierarquia interna aparece na aba própria.
+- [ ] Preview funciona sem câmera de execução.
+- [ ] Alterações na origem propagam às instâncias.
+- [ ] Configurações locais são preservadas.
+- [ ] Conflitos são identificados.
+- [ ] Várias cenas podem permanecer abertas simultaneamente.
+
+## Câmeras e Runtime
+
+- [ ] Busca automática na hierarquia.
+- [ ] Busca dentro de cenas instanciadas.
+- [ ] Seleção determinística.
+- [ ] Câmera ativa pode ser controlada.
+- [ ] Ausência de câmera não impede execução.
+- [ ] Editor possui visualização independente.
+- [ ] Todas as hierarquias internas participam do Runtime.
+
+## Integridade
+
+- [ ] Recursos persistem após reabrir o projeto.
+- [ ] UUIDs são preservados.
+- [ ] Referências quebradas são identificadas.
+- [ ] Projetos antigos continuam compatíveis.
+- [ ] Testes existentes permanecem funcionando.
+- [ ] Novos testes cobrem as funcionalidades implementadas.
+
+---
+
+# 23. Resultado final esperado
+
+A Maxros Engine deverá oferecer um ambiente integrado no qual o desenvolvedor constrói seu projeto utilizando Nodes, organiza esses Nodes em cenas, reutiliza cenas como estruturas filhas e define comportamentos por meio de classes JavaScript que estendem diretamente os tipos nativos da engine.
+
+O desenvolvedor deverá conseguir:
+
+1. Criar qualquer tipo de Node disponível.
+2. Organizar Nodes em hierarquias.
+3. Associar classes JavaScript diretamente aos Nodes.
+4. Editar scripts no ambiente integrado.
+5. Utilizar o ciclo de vida nativo dos Nodes.
+6. Configurar a cena principal livremente.
+7. Executar o jogo sem precisar de uma câmera obrigatória.
+8. Adicionar cenas existentes como Nodes filhos.
+9. Manter cenas instanciadas encapsuladas na árvore externa.
+10. Renomear instâncias sem alterar os recursos originais.
+11. Abrir cenas instanciadas por meio da claquete.
+12. Editar cenas em abas independentes.
+13. Visualizar cenas no preview do editor.
+14. Propagar alterações da origem para suas instâncias.
+15. Manter configurações locais e estados independentes.
+16. Executar todas as hierarquias corretamente no Runtime.
+
+**Diretriz arquitetural definitiva:** o sistema deverá ser construído em torno dos Nodes e das cenas reais da Maxros Engine. Classes JavaScript estendem Nodes; cenas instanciadas são Nodes encapsulados no editor e hierarquias completas no Runtime; o ciclo de vida pertence aos Nodes; e editor e Runtime utilizam a mesma estrutura de dados e os mesmos conceitos fundamentais.
+
+Não criar sistemas paralelos para simular essas funcionalidades. Não substituir a arquitetura existente por uma estrutura nova desnecessariamente. Implementar o conjunto como uma extensão integrada da Maxros Engine, preservando os recursos e comportamentos que já funcionam.

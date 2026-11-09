@@ -1,0 +1,24 @@
+{
+  "uuid": "63f47e4d-ffac-417a-8646-32116aa582b2",
+  "engine": "Maxros Engine",
+  "engine_version": "1.0.0",
+  "project_version": 1,
+  "name": "Guardião Geométrico: Arena dos Cristais",
+  "type": "demo",
+  "template": "geometric_demo",
+  "main_scene": {
+    "uuid": "1192f76c-0593-4e1b-b83e-894e71d88b12"
+  },
+  "folders": {
+    "core": "core",
+    "scenes": "scenes",
+    "scripts": "scripts",
+    "assets": "assets",
+    "resources": "resources"
+  },
+  "trust_policy": {
+    "origin": "official_demo",
+    "trusted": true
+  },
+  "created_at": "2026-11-07T14:28:37.864Z"
+}

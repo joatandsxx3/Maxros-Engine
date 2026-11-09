@@ -1,0 +1,49 @@
+{
+  "engine": "Maxros Engine",
+  "engine_version": "1.0.0",
+  "project_version": 1,
+  "provisionedAt": "2026-11-07T14:28:37.823Z",
+  "totalRuntimeBytes": 174279,
+  "externalDependencies": {
+    "three": "0.187.0",
+    "cannon-es": "0.20.0"
+  },
+  "dependencyGraph": [
+    {
+      "module": "native/NativeClasses.js",
+      "bytes": 32789
+    },
+    {
+      "module": "engine/SceneTree.js",
+      "bytes": 7766
+    },
+    {
+      "module": "engine/PhysicsServer.js",
+      "bytes": 7476
+    },
+    {
+      "module": "engine/EngineNode.js",
+      "bytes": 38515
+    },
+    {
+      "module": "engine/CollisionShape3DNode.js",
+      "bytes": 6964
+    },
+    {
+      "module": "engine/RigidBody3DNode.js",
+      "bytes": 10398
+    },
+    {
+      "module": "engine/Sprite3DNode.js",
+      "bytes": 10249
+    },
+    {
+      "module": "engine/SceneNodes.js",
+      "bytes": 48605
+    },
+    {
+      "module": "engine/NodeFactory.js",
+      "bytes": 9875
+    }
+  ]
+}

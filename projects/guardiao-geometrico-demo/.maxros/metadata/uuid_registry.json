@@ -1,0 +1,10 @@
+{
+  "engine": "Maxros Engine",
+  "updatedAt": "2026-11-09T01:48:08.796Z",
+  "entries": {
+    "resources/default.input.json": "000fccce-f230-4761-8b35-db0f7993d642",
+    "resources/default_floor.material.json": "77c004b6-883a-4227-8413-a35693b6ccb4",
+    "scenes/main.scene.json": "1192f76c-0593-4e1b-b83e-894e71d88b12",
+    "scripts/player_controller.script.js": "7b3c4095-0814-4315-8aab-964abaeb2353"
+  }
+}

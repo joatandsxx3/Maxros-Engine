@@ -1,0 +1,2679 @@
+{
+  "engine": "Maxros Engine",
+  "version": "1.0",
+  "name": "GuardiaoGeometrico_Cena",
+  "environment": {
+    "mode": "solid_color",
+    "color": "#0f172a",
+    "skybox": null
+  },
+  "rootNodes": [
+    {
+      "type": "EngineNode",
+      "uuid": "c7a536e5-bdd8-4fde-88be-4f3f08a5b265",
+      "name": "GuardiaoGeometrico_Cena",
+      "uniqueName": false,
+      "editorVisible": true,
+      "editorLocked": false,
+      "processMode": "inherit",
+      "processPriority": 0,
+      "tickRate": 0,
+      "runInEditor": false,
+      "groups": [],
+      "meta": {},
+      "environment": {
+        "mode": "solid_color",
+        "color": "#0f172a",
+        "skybox": null
+      },
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "order": "XYZ"
+      },
+      "quaternion": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "scale": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      },
+      "components": [],
+      "scripts": [],
+      "children": [
+        {
+          "type": "Camera3D",
+          "uuid": "bd966204-3195-4cf8-b0ee-51c411dceb35",
+          "name": "MainCamera",
+          "uniqueName": true,
+          "editorVisible": true,
+          "editorLocked": false,
+          "processMode": "inherit",
+          "processPriority": 0,
+          "tickRate": 0,
+          "runInEditor": false,
+          "groups": [],
+          "meta": {},
+          "position": {
+            "x": 0,
+            "y": 9.5,
+            "z": 11.5
+          },
+          "rotation": {
+            "x": -0.6632251157578453,
+            "y": 0,
+            "z": 0,
+            "order": "XYZ"
+          },
+          "quaternion": {
+            "x": -0.3255681544571567,
+            "y": 0,
+            "z": 0,
+            "w": 0.9455185755993168
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "components": [],
+          "scripts": [],
+          "children": [],
+          "camera": {
+            "current": true,
+            "projection": "perspective",
+            "fov": 52,
+            "size": 10,
+            "near": 0.1,
+            "far": 200
+          }
+        },
+        {
+          "type": "DirectionalLight3D",
+          "uuid": "5bb7415c-6e4f-48de-bd12-4c9d65f64470",
+          "name": "SolDirecional",
+          "uniqueName": false,
+          "editorVisible": true,
+          "editorLocked": false,
+          "processMode": "inherit",
+          "processPriority": 0,
+          "tickRate": 0,
+          "runInEditor": false,
+          "groups": [],
+          "meta": {},
+          "position": {
+            "x": 8,
+            "y": 14,
+            "z": 6
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "order": "XYZ"
+          },
+          "quaternion": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "components": [],
+          "scripts": [],
+          "children": [],
+          "light": {
+            "lightType": "directional",
+            "color": "#f8fafc",
+            "intensity": 1.6,
+            "castShadow": true,
+            "shadowMapSize": 1024,
+            "shadowBias": -0.0005,
+            "range": 20,
+            "decay": 2,
+            "angle": 45,
+            "penumbra": 0.2,
+            "groundColor": "#1e293b"
+          }
+        },
+        {
+          "type": "PointLight3D",
+          "uuid": "b588a22e-1cf2-4073-8f0b-0cd5ae1033f1",
+          "name": "LuzCentralArena",
+          "uniqueName": false,
+          "editorVisible": true,
+          "editorLocked": false,
+          "processMode": "inherit",
+          "processPriority": 0,
+          "tickRate": 0,
+          "runInEditor": false,
+          "groups": [],
+          "meta": {},
+          "position": {
+            "x": 0,
+            "y": 3.5,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "order": "XYZ"
+          },
+          "quaternion": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "components": [],
+          "scripts": [],
+          "children": [],
+          "light": {
+            "lightType": "point",
+            "color": "#38bdf8",
+            "intensity": 2.2,
+            "castShadow": false,
+            "shadowMapSize": 1024,
+            "shadowBias": -0.0005,
+            "range": 18,
+            "decay": 2,
+            "angle": 45,
+            "penumbra": 0.2,
+            "groundColor": "#1e293b"
+          }
+        },
+        {
+          "type": "Node3D",
+          "uuid": "16dab6e8-86e1-4510-89e8-cafdfec62e92",
+          "name": "MapaGeometrico",
+          "uniqueName": true,
+          "editorVisible": true,
+          "editorLocked": false,
+          "processMode": "inherit",
+          "processPriority": 0,
+          "tickRate": 0,
+          "runInEditor": false,
+          "groups": [],
+          "meta": {},
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "order": "XYZ"
+          },
+          "quaternion": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "components": [],
+          "scripts": [],
+          "children": [
+            {
+              "type": "Mesh3D",
+              "uuid": "7b9fffd1-88e3-4587-8896-3552957e619e",
+              "name": "PlataformaOctogonal",
+              "uniqueName": false,
+              "editorVisible": true,
+              "editorLocked": false,
+              "processMode": "inherit",
+              "processPriority": 0,
+              "tickRate": 0,
+              "runInEditor": false,
+              "groups": [],
+              "meta": {},
+              "position": {
+                "x": 0,
+                "y": -0.3,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "quaternion": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "material": {
+                "uuid": "77c004b6-883a-4227-8413-a35693b6ccb4"
+              },
+              "components": [],
+              "scripts": [],
+              "children": [],
+              "mesh": {
+                "shape": "cylinder",
+                "shapeParams": {
+                  "radiusTop": 7.5,
+                  "radiusBottom": 8.2,
+                  "height": 0.6,
+                  "radialSegments": 8
+                },
+                "material": {
+                  "type": "standard",
+                  "color": "#1e293b",
+                  "roughness": 0.6,
+                  "metalness": 0.3,
+                  "emissive": "#000000",
+                  "emissiveIntensity": 0,
+                  "opacity": 1,
+                  "transparent": false,
+                  "wireframe": false,
+                  "side": "front",
+                  "blending": "normal"
+                },
+                "castShadow": true,
+                "receiveShadow": true,
+                "pickable": true
+              }
+            },
+            {
+              "type": "Mesh3D",
+              "uuid": "2a4622a0-9b22-4c31-a102-d081bdc7006e",
+              "name": "AnelEnergiaArena",
+              "uniqueName": false,
+              "editorVisible": true,
+              "editorLocked": false,
+              "processMode": "inherit",
+              "processPriority": 0,
+              "tickRate": 0,
+              "runInEditor": false,
+              "groups": [],
+              "meta": {},
+              "position": {
+                "x": 0,
+                "y": 0.05,
+                "z": 0
+              },
+              "rotation": {
+                "x": 1.5707963267948966,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "quaternion": {
+                "x": 0.7071067811865475,
+                "y": 0,
+                "z": 0,
+                "w": 0.7071067811865476
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "components": [],
+              "scripts": [],
+              "children": [],
+              "mesh": {
+                "shape": "torus",
+                "shapeParams": {
+                  "radius": 5.2,
+                  "tube": 0.08,
+                  "radialSegments": 12,
+                  "tubularSegments": 48
+                },
+                "material": {
+                  "type": "standard",
+                  "color": "#0ea5e9",
+                  "roughness": 0.2,
+                  "metalness": 0.8,
+                  "emissive": "#0284c7",
+                  "emissiveIntensity": 0.6,
+                  "opacity": 1,
+                  "transparent": false,
+                  "wireframe": false,
+                  "side": "front",
+                  "blending": "normal"
+                },
+                "castShadow": true,
+                "receiveShadow": true,
+                "pickable": true
+              }
+            },
+            {
+              "type": "Mesh3D",
+              "uuid": "888a054d-7829-4878-853b-fcd602f7132f",
+              "name": "ObeliscoNorte",
+              "uniqueName": false,
+              "editorVisible": true,
+              "editorLocked": false,
+              "processMode": "inherit",
+              "processPriority": 0,
+              "tickRate": 0,
+              "runInEditor": false,
+              "groups": [],
+              "meta": {},
+              "position": {
+                "x": 0,
+                "y": 1.1,
+                "z": -6.2
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "quaternion": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "components": [],
+              "scripts": [],
+              "children": [
+                {
+                  "type": "Mesh3D",
+                  "uuid": "6abe5cf1-cb13-47c2-a7c7-58e785d2d767",
+                  "name": "ObeliscoNorte_Topo",
+                  "uniqueName": false,
+                  "editorVisible": true,
+                  "editorLocked": false,
+                  "processMode": "inherit",
+                  "processPriority": 0,
+                  "tickRate": 0,
+                  "runInEditor": false,
+                  "groups": [],
+                  "meta": {},
+                  "position": {
+                    "x": 0,
+                    "y": 1.45,
+                    "z": 0
+                  },
+                  "rotation": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0,
+                    "order": "XYZ"
+                  },
+                  "quaternion": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0,
+                    "w": 1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "components": [],
+                  "scripts": [],
+                  "children": [],
+                  "mesh": {
+                    "shape": "cone",
+                    "shapeParams": {
+                      "radius": 0.38,
+                      "height": 0.7,
+                      "radialSegments": 6
+                    },
+                    "material": {
+                      "type": "standard",
+                      "color": "#38bdf8",
+                      "roughness": 0.35,
+                      "metalness": 0.15,
+                      "emissive": "#38bdf8",
+                      "emissiveIntensity": 0.5,
+                      "opacity": 1,
+                      "transparent": false,
+                      "wireframe": false,
+                      "side": "front",
+                      "blending": "normal"
+                    },
+                    "castShadow": true,
+                    "receiveShadow": true,
+                    "pickable": true
+                  }
+                }
+              ],
+              "mesh": {
+                "shape": "cylinder",
+                "shapeParams": {
+                  "radiusTop": 0.28,
+                  "radiusBottom": 0.42,
+                  "height": 2.2,
+                  "radialSegments": 6
+                },
+                "material": {
+                  "type": "standard",
+                  "color": "#334155",
+                  "roughness": 0.4,
+                  "metalness": 0.5,
+                  "emissive": "#000000",
+                  "emissiveIntensity": 0,
+                  "opacity": 1,
+                  "transparent": false,
+                  "wireframe": false,
+                  "side": "front",
+                  "blending": "normal"
+                },
+                "castShadow": true,
+                "receiveShadow": true,
+                "pickable": true
+              }
+            },
+            {
+              "type": "Mesh3D",
+              "uuid": "7d754d8a-94cf-496d-91ce-30ae06716b40",
+              "name": "ObeliscoSul",
+              "uniqueName": false,
+              "editorVisible": true,
+              "editorLocked": false,
+              "processMode": "inherit",
+              "processPriority": 0,
+              "tickRate": 0,
+              "runInEditor": false,
+              "groups": [],
+              "meta": {},
+              "position": {
+                "x": 0,
+                "y": 1.1,
+                "z": 6.2
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "quaternion": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "components": [],
+              "scripts": [],
+              "children": [
+                {
+                  "type": "Mesh3D",
+                  "uuid": "93d77de0-7902-4eae-a1c7-39ff55e0f37b",
+                  "name": "ObeliscoSul_Topo",
+                  "uniqueName": false,
+                  "editorVisible": true,
+                  "editorLocked": false,
+                  "processMode": "inherit",
+                  "processPriority": 0,
+                  "tickRate": 0,
+                  "runInEditor": false,
+                  "groups": [],
+                  "meta": {},
+                  "position": {
+                    "x": 0,
+                    "y": 1.45,
+                    "z": 0
+                  },
+                  "rotation": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0,
+                    "order": "XYZ"
+                  },
+                  "quaternion": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0,
+                    "w": 1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "components": [],
+                  "scripts": [],
+                  "children": [],
+                  "mesh": {
+                    "shape": "cone",
+                    "shapeParams": {
+                      "radius": 0.38,
+                      "height": 0.7,
+                      "radialSegments": 6
+                    },
+                    "material": {
+                      "type": "standard",
+                      "color": "#38bdf8",
+                      "roughness": 0.35,
+                      "metalness": 0.15,
+                      "emissive": "#38bdf8",
+                      "emissiveIntensity": 0.5,
+                      "opacity": 1,
+                      "transparent": false,
+                      "wireframe": false,
+                      "side": "front",
+                      "blending": "normal"
+                    },
+                    "castShadow": true,
+                    "receiveShadow": true,
+                    "pickable": true
+                  }
+                }
+              ],
+              "mesh": {
+                "shape": "cylinder",
+                "shapeParams": {
+                  "radiusTop": 0.28,
+                  "radiusBottom": 0.42,
+                  "height": 2.2,
+                  "radialSegments": 6
+                },
+                "material": {
+                  "type": "standard",
+                  "color": "#334155",
+                  "roughness": 0.4,
+                  "metalness": 0.5,
+                  "emissive": "#000000",
+                  "emissiveIntensity": 0,
+                  "opacity": 1,
+                  "transparent": false,
+                  "wireframe": false,
+                  "side": "front",
+                  "blending": "normal"
+                },
+                "castShadow": true,
+                "receiveShadow": true,
+                "pickable": true
+              }
+            },
+            {
+              "type": "Mesh3D",
+              "uuid": "a049e15c-626d-443e-884f-bac60ce5887e",
+              "name": "ObeliscoLeste",
+              "uniqueName": false,
+              "editorVisible": true,
+              "editorLocked": false,
+              "processMode": "inherit",
+              "processPriority": 0,
+              "tickRate": 0,
+              "runInEditor": false,
+              "groups": [],
+              "meta": {},
+              "position": {
+                "x": 6.2,
+                "y": 1.1,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "quaternion": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "components": [],
+              "scripts": [],
+              "children": [
+                {
+                  "type": "Mesh3D",
+                  "uuid": "eed31ceb-5727-401f-ad3a-cae36f6029c4",
+                  "name": "ObeliscoLeste_Topo",
+                  "uniqueName": false,
+                  "editorVisible": true,
+                  "editorLocked": false,
+                  "processMode": "inherit",
+                  "processPriority": 0,
+                  "tickRate": 0,
+                  "runInEditor": false,
+                  "groups": [],
+                  "meta": {},
+                  "position": {
+                    "x": 0,
+                    "y": 1.45,
+                    "z": 0
+                  },
+                  "rotation": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0,
+                    "order": "XYZ"
+                  },
+                  "quaternion": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0,
+                    "w": 1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "components": [],
+                  "scripts": [],
+                  "children": [],
+                  "mesh": {
+                    "shape": "cone",
+                    "shapeParams": {
+                      "radius": 0.38,
+                      "height": 0.7,
+                      "radialSegments": 6
+                    },
+                    "material": {
+                      "type": "standard",
+                      "color": "#818cf8",
+                      "roughness": 0.35,
+                      "metalness": 0.15,
+                      "emissive": "#818cf8",
+                      "emissiveIntensity": 0.5,
+                      "opacity": 1,
+                      "transparent": false,
+                      "wireframe": false,
+                      "side": "front",
+                      "blending": "normal"
+                    },
+                    "castShadow": true,
+                    "receiveShadow": true,
+                    "pickable": true
+                  }
+                }
+              ],
+              "mesh": {
+                "shape": "cylinder",
+                "shapeParams": {
+                  "radiusTop": 0.28,
+                  "radiusBottom": 0.42,
+                  "height": 2.2,
+                  "radialSegments": 6
+                },
+                "material": {
+                  "type": "standard",
+                  "color": "#334155",
+                  "roughness": 0.4,
+                  "metalness": 0.5,
+                  "emissive": "#000000",
+                  "emissiveIntensity": 0,
+                  "opacity": 1,
+                  "transparent": false,
+                  "wireframe": false,
+                  "side": "front",
+                  "blending": "normal"
+                },
+                "castShadow": true,
+                "receiveShadow": true,
+                "pickable": true
+              }
+            },
+            {
+              "type": "Mesh3D",
+              "uuid": "784c2987-3779-4545-ad5b-9835b37336aa",
+              "name": "ObeliscoOeste",
+              "uniqueName": false,
+              "editorVisible": true,
+              "editorLocked": false,
+              "processMode": "inherit",
+              "processPriority": 0,
+              "tickRate": 0,
+              "runInEditor": false,
+              "groups": [],
+              "meta": {},
+              "position": {
+                "x": -6.2,
+                "y": 1.1,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "quaternion": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "components": [],
+              "scripts": [],
+              "children": [
+                {
+                  "type": "Mesh3D",
+                  "uuid": "b3b07383-9fc2-4146-9e63-646ad571cac6",
+                  "name": "ObeliscoOeste_Topo",
+                  "uniqueName": false,
+                  "editorVisible": true,
+                  "editorLocked": false,
+                  "processMode": "inherit",
+                  "processPriority": 0,
+                  "tickRate": 0,
+                  "runInEditor": false,
+                  "groups": [],
+                  "meta": {},
+                  "position": {
+                    "x": 0,
+                    "y": 1.45,
+                    "z": 0
+                  },
+                  "rotation": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0,
+                    "order": "XYZ"
+                  },
+                  "quaternion": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0,
+                    "w": 1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "components": [],
+                  "scripts": [],
+                  "children": [],
+                  "mesh": {
+                    "shape": "cone",
+                    "shapeParams": {
+                      "radius": 0.38,
+                      "height": 0.7,
+                      "radialSegments": 6
+                    },
+                    "material": {
+                      "type": "standard",
+                      "color": "#818cf8",
+                      "roughness": 0.35,
+                      "metalness": 0.15,
+                      "emissive": "#818cf8",
+                      "emissiveIntensity": 0.5,
+                      "opacity": 1,
+                      "transparent": false,
+                      "wireframe": false,
+                      "side": "front",
+                      "blending": "normal"
+                    },
+                    "castShadow": true,
+                    "receiveShadow": true,
+                    "pickable": true
+                  }
+                }
+              ],
+              "mesh": {
+                "shape": "cylinder",
+                "shapeParams": {
+                  "radiusTop": 0.28,
+                  "radiusBottom": 0.42,
+                  "height": 2.2,
+                  "radialSegments": 6
+                },
+                "material": {
+                  "type": "standard",
+                  "color": "#334155",
+                  "roughness": 0.4,
+                  "metalness": 0.5,
+                  "emissive": "#000000",
+                  "emissiveIntensity": 0,
+                  "opacity": 1,
+                  "transparent": false,
+                  "wireframe": false,
+                  "side": "front",
+                  "blending": "normal"
+                },
+                "castShadow": true,
+                "receiveShadow": true,
+                "pickable": true
+              }
+            }
+          ]
+        },
+        {
+          "type": "Path3D",
+          "uuid": "26145a6b-7f4d-425e-8ce4-cf33937596a7",
+          "name": "TrilhaPatrulha",
+          "uniqueName": false,
+          "editorVisible": true,
+          "editorLocked": false,
+          "processMode": "inherit",
+          "processPriority": 0,
+          "tickRate": 0,
+          "runInEditor": false,
+          "groups": [],
+          "meta": {},
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "order": "XYZ"
+          },
+          "quaternion": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "components": [],
+          "scripts": [],
+          "children": [
+            {
+              "type": "PathFollow3D",
+              "uuid": "e9bfa660-334f-435d-8a47-00988d5fcd03",
+              "name": "SeguidorTrilha",
+              "uniqueName": false,
+              "editorVisible": true,
+              "editorLocked": false,
+              "processMode": "inherit",
+              "processPriority": 0,
+              "tickRate": 0,
+              "runInEditor": false,
+              "groups": [],
+              "meta": {},
+              "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "quaternion": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "components": [],
+              "scripts": [],
+              "children": [
+                {
+                  "type": "Mesh3D",
+                  "uuid": "f32a9ce1-c051-4702-bf36-569c6c89c828",
+                  "name": "DroneSentinela",
+                  "uniqueName": true,
+                  "editorVisible": true,
+                  "editorLocked": false,
+                  "processMode": "inherit",
+                  "processPriority": 0,
+                  "tickRate": 0,
+                  "runInEditor": false,
+                  "groups": [
+                    "perigos"
+                  ],
+                  "meta": {},
+                  "position": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "rotation": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0,
+                    "order": "XYZ"
+                  },
+                  "quaternion": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0,
+                    "w": 1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "components": [
+                    {
+                      "id": "comp_drone_spin",
+                      "type": "Rotator",
+                      "enabled": true,
+                      "params": {
+                        "speedX": 90,
+                        "speedY": 140,
+                        "speedZ": 0
+                      }
+                    }
+                  ],
+                  "scripts": [],
+                  "children": [],
+                  "mesh": {
+                    "shape": "torusKnot",
+                    "shapeParams": {
+                      "radius": 0.38,
+                      "tube": 0.11,
+                      "tubularSegments": 36,
+                      "radialSegments": 10
+                    },
+                    "material": {
+                      "type": "standard",
+                      "color": "#f43f5e",
+                      "roughness": 0.25,
+                      "metalness": 0.7,
+                      "emissive": "#e11d48",
+                      "emissiveIntensity": 0.65,
+                      "opacity": 1,
+                      "transparent": false,
+                      "wireframe": false,
+                      "side": "front",
+                      "blending": "normal"
+                    },
+                    "castShadow": true,
+                    "receiveShadow": true,
+                    "pickable": true
+                  }
+                }
+              ],
+              "pathFollow": {
+                "progress": 0,
+                "speed": 0.14,
+                "loop": true,
+                "rotateAlongPath": true,
+                "offset": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            }
+          ],
+          "curvePoints": [
+            {
+              "x": -3.8,
+              "y": 0.8,
+              "z": -3.8
+            },
+            {
+              "x": 3.8,
+              "y": 1.2,
+              "z": -3.8
+            },
+            {
+              "x": 3.8,
+              "y": 0.8,
+              "z": 3.8
+            },
+            {
+              "x": -3.8,
+              "y": 1.2,
+              "z": 3.8
+            },
+            {
+              "x": -3.8,
+              "y": 0.8,
+              "z": -3.8
+            }
+          ]
+        },
+        {
+          "type": "Mesh3D",
+          "uuid": "0a0e112d-0c5a-4ffc-bff9-d76eece7dc64",
+          "name": "CristalCiano",
+          "uniqueName": false,
+          "editorVisible": true,
+          "editorLocked": false,
+          "processMode": "inherit",
+          "processPriority": 0,
+          "tickRate": 0,
+          "runInEditor": false,
+          "groups": [
+            "cristais"
+          ],
+          "meta": {},
+          "position": {
+            "x": -2.8,
+            "y": 0.75,
+            "z": -2.2
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "order": "XYZ"
+          },
+          "quaternion": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "components": [
+            {
+              "id": "comp_crys_rot_0",
+              "type": "Rotator",
+              "enabled": true,
+              "params": {
+                "speedX": 0,
+                "speedY": 85,
+                "speedZ": 25
+              }
+            }
+          ],
+          "scripts": [],
+          "children": [
+            {
+              "type": "AnimationPlayer",
+              "uuid": "0ecc382c-b383-43fc-8157-5b114af35b48",
+              "name": "CristalCiano_Anim",
+              "uniqueName": false,
+              "editorVisible": true,
+              "editorLocked": false,
+              "processMode": "inherit",
+              "processPriority": 0,
+              "tickRate": 0,
+              "runInEditor": false,
+              "groups": [],
+              "meta": {},
+              "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "quaternion": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "components": [],
+              "scripts": [],
+              "children": [],
+              "animationPlayer": {
+                "rootNode": "..",
+                "current": "",
+                "playing": true,
+                "speed": 1,
+                "autoplay": "float_loop",
+                "resetOnStop": true,
+                "clips": {
+                  "float_loop": {
+                    "name": "float_loop",
+                    "length": 1.6,
+                    "loop": true,
+                    "tracks": [
+                      {
+                        "type": "property",
+                        "path": ".",
+                        "property": "scale",
+                        "easing": "easeInOutSine",
+                        "keyframes": [
+                          {
+                            "time": 0,
+                            "value": {
+                              "x": 0.9,
+                              "y": 0.9,
+                              "z": 0.9
+                            }
+                          },
+                          {
+                            "time": 0.8,
+                            "value": {
+                              "x": 1.2,
+                              "y": 1.2,
+                              "z": 1.2
+                            }
+                          },
+                          {
+                            "time": 1.6,
+                            "value": {
+                              "x": 0.9,
+                              "y": 0.9,
+                              "z": 0.9
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "type": "PickArea3D",
+              "uuid": "570115f5-7a76-4480-b0b4-406df2bb3b14",
+              "name": "CristalCiano_PickArea",
+              "uniqueName": false,
+              "editorVisible": true,
+              "editorLocked": false,
+              "processMode": "inherit",
+              "processPriority": 0,
+              "tickRate": 0,
+              "runInEditor": false,
+              "groups": [],
+              "meta": {},
+              "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "quaternion": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "components": [],
+              "scripts": [],
+              "children": [],
+              "pickArea": {
+                "shape": "sphere",
+                "size": {
+                  "radius": 0.85
+                },
+                "enabled": true,
+                "pickPriority": 0,
+                "cursor": "pointer"
+              }
+            }
+          ],
+          "mesh": {
+            "shape": "octahedron",
+            "shapeParams": {
+              "radius": 0.52,
+              "detail": 0
+            },
+            "material": {
+              "type": "standard",
+              "color": "#38bdf8",
+              "roughness": 0.15,
+              "metalness": 0.6,
+              "emissive": "#0284c7",
+              "emissiveIntensity": 0.55,
+              "opacity": 1,
+              "transparent": false,
+              "wireframe": false,
+              "side": "front",
+              "blending": "normal"
+            },
+            "castShadow": true,
+            "receiveShadow": true,
+            "pickable": true
+          }
+        },
+        {
+          "type": "Mesh3D",
+          "uuid": "0c2cea7f-c2f5-488a-bf20-6ed5b9b92e83",
+          "name": "CristalDourado",
+          "uniqueName": false,
+          "editorVisible": true,
+          "editorLocked": false,
+          "processMode": "inherit",
+          "processPriority": 0,
+          "tickRate": 0,
+          "runInEditor": false,
+          "groups": [
+            "cristais"
+          ],
+          "meta": {},
+          "position": {
+            "x": 2.9,
+            "y": 0.75,
+            "z": -1.8
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "order": "XYZ"
+          },
+          "quaternion": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "components": [
+            {
+              "id": "comp_crys_rot_1",
+              "type": "Rotator",
+              "enabled": true,
+              "params": {
+                "speedX": 0,
+                "speedY": 105,
+                "speedZ": 25
+              }
+            }
+          ],
+          "scripts": [],
+          "children": [
+            {
+              "type": "AnimationPlayer",
+              "uuid": "dc88e67e-b034-4333-bbb6-d5734e0101e7",
+              "name": "CristalDourado_Anim",
+              "uniqueName": false,
+              "editorVisible": true,
+              "editorLocked": false,
+              "processMode": "inherit",
+              "processPriority": 0,
+              "tickRate": 0,
+              "runInEditor": false,
+              "groups": [],
+              "meta": {},
+              "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "quaternion": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "components": [],
+              "scripts": [],
+              "children": [],
+              "animationPlayer": {
+                "rootNode": "..",
+                "current": "",
+                "playing": true,
+                "speed": 1.15,
+                "autoplay": "float_loop",
+                "resetOnStop": true,
+                "clips": {
+                  "float_loop": {
+                    "name": "float_loop",
+                    "length": 1.6,
+                    "loop": true,
+                    "tracks": [
+                      {
+                        "type": "property",
+                        "path": ".",
+                        "property": "scale",
+                        "easing": "easeInOutSine",
+                        "keyframes": [
+                          {
+                            "time": 0,
+                            "value": {
+                              "x": 0.9,
+                              "y": 0.9,
+                              "z": 0.9
+                            }
+                          },
+                          {
+                            "time": 0.8,
+                            "value": {
+                              "x": 1.2,
+                              "y": 1.2,
+                              "z": 1.2
+                            }
+                          },
+                          {
+                            "time": 1.6,
+                            "value": {
+                              "x": 0.9,
+                              "y": 0.9,
+                              "z": 0.9
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "type": "PickArea3D",
+              "uuid": "4d8a97b3-515d-4afd-957f-26a50d08815f",
+              "name": "CristalDourado_PickArea",
+              "uniqueName": false,
+              "editorVisible": true,
+              "editorLocked": false,
+              "processMode": "inherit",
+              "processPriority": 0,
+              "tickRate": 0,
+              "runInEditor": false,
+              "groups": [],
+              "meta": {},
+              "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "quaternion": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "components": [],
+              "scripts": [],
+              "children": [],
+              "pickArea": {
+                "shape": "sphere",
+                "size": {
+                  "radius": 0.85
+                },
+                "enabled": true,
+                "pickPriority": 0,
+                "cursor": "pointer"
+              }
+            }
+          ],
+          "mesh": {
+            "shape": "octahedron",
+            "shapeParams": {
+              "radius": 0.52,
+              "detail": 0
+            },
+            "material": {
+              "type": "standard",
+              "color": "#fbbf24",
+              "roughness": 0.15,
+              "metalness": 0.6,
+              "emissive": "#d97706",
+              "emissiveIntensity": 0.55,
+              "opacity": 1,
+              "transparent": false,
+              "wireframe": false,
+              "side": "front",
+              "blending": "normal"
+            },
+            "castShadow": true,
+            "receiveShadow": true,
+            "pickable": true
+          }
+        },
+        {
+          "type": "Mesh3D",
+          "uuid": "8105413a-7f4e-435a-b81e-155cbaa2415b",
+          "name": "CristalVioleta",
+          "uniqueName": false,
+          "editorVisible": true,
+          "editorLocked": false,
+          "processMode": "inherit",
+          "processPriority": 0,
+          "tickRate": 0,
+          "runInEditor": false,
+          "groups": [
+            "cristais"
+          ],
+          "meta": {},
+          "position": {
+            "x": 0.2,
+            "y": 0.75,
+            "z": 3.1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "order": "XYZ"
+          },
+          "quaternion": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "components": [
+            {
+              "id": "comp_crys_rot_2",
+              "type": "Rotator",
+              "enabled": true,
+              "params": {
+                "speedX": 0,
+                "speedY": 125,
+                "speedZ": 25
+              }
+            }
+          ],
+          "scripts": [],
+          "children": [
+            {
+              "type": "AnimationPlayer",
+              "uuid": "30f4dd1c-221b-4e81-8d29-107bb1fecba2",
+              "name": "CristalVioleta_Anim",
+              "uniqueName": false,
+              "editorVisible": true,
+              "editorLocked": false,
+              "processMode": "inherit",
+              "processPriority": 0,
+              "tickRate": 0,
+              "runInEditor": false,
+              "groups": [],
+              "meta": {},
+              "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "quaternion": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "components": [],
+              "scripts": [],
+              "children": [],
+              "animationPlayer": {
+                "rootNode": "..",
+                "current": "",
+                "playing": true,
+                "speed": 1.3,
+                "autoplay": "float_loop",
+                "resetOnStop": true,
+                "clips": {
+                  "float_loop": {
+                    "name": "float_loop",
+                    "length": 1.6,
+                    "loop": true,
+                    "tracks": [
+                      {
+                        "type": "property",
+                        "path": ".",
+                        "property": "scale",
+                        "easing": "easeInOutSine",
+                        "keyframes": [
+                          {
+                            "time": 0,
+                            "value": {
+                              "x": 0.9,
+                              "y": 0.9,
+                              "z": 0.9
+                            }
+                          },
+                          {
+                            "time": 0.8,
+                            "value": {
+                              "x": 1.2,
+                              "y": 1.2,
+                              "z": 1.2
+                            }
+                          },
+                          {
+                            "time": 1.6,
+                            "value": {
+                              "x": 0.9,
+                              "y": 0.9,
+                              "z": 0.9
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "type": "PickArea3D",
+              "uuid": "6513f86a-0b67-414e-a50f-d6f7e66fe04a",
+              "name": "CristalVioleta_PickArea",
+              "uniqueName": false,
+              "editorVisible": true,
+              "editorLocked": false,
+              "processMode": "inherit",
+              "processPriority": 0,
+              "tickRate": 0,
+              "runInEditor": false,
+              "groups": [],
+              "meta": {},
+              "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "quaternion": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "components": [],
+              "scripts": [],
+              "children": [],
+              "pickArea": {
+                "shape": "sphere",
+                "size": {
+                  "radius": 0.85
+                },
+                "enabled": true,
+                "pickPriority": 0,
+                "cursor": "pointer"
+              }
+            }
+          ],
+          "mesh": {
+            "shape": "octahedron",
+            "shapeParams": {
+              "radius": 0.52,
+              "detail": 0
+            },
+            "material": {
+              "type": "standard",
+              "color": "#a855f7",
+              "roughness": 0.15,
+              "metalness": 0.6,
+              "emissive": "#7e22ce",
+              "emissiveIntensity": 0.55,
+              "opacity": 1,
+              "transparent": false,
+              "wireframe": false,
+              "side": "front",
+              "blending": "normal"
+            },
+            "castShadow": true,
+            "receiveShadow": true,
+            "pickable": true
+          }
+        },
+        {
+          "type": "Particles3D",
+          "uuid": "69b3d209-68f8-4b77-9511-e6b561cd5272",
+          "name": "CollectBurstFX",
+          "uniqueName": true,
+          "editorVisible": true,
+          "editorLocked": false,
+          "processMode": "inherit",
+          "processPriority": 0,
+          "tickRate": 0,
+          "runInEditor": false,
+          "groups": [],
+          "meta": {},
+          "position": {
+            "x": 0,
+            "y": 0.8,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "order": "XYZ"
+          },
+          "quaternion": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "components": [],
+          "scripts": [],
+          "children": [],
+          "particles": {
+            "emitting": false,
+            "oneShot": true,
+            "amount": 28,
+            "lifetime": 0.75,
+            "colorOverLife": [
+              "#fde047",
+              "#38bdf8"
+            ]
+          }
+        },
+        {
+          "type": "Mesh3D",
+          "uuid": "5361a59c-a609-4b40-9d12-b1b3d169151b",
+          "name": "PlayerCore",
+          "uniqueName": true,
+          "editorVisible": true,
+          "editorLocked": false,
+          "processMode": "inherit",
+          "processPriority": 0,
+          "tickRate": 0,
+          "runInEditor": false,
+          "groups": [
+            "jogador"
+          ],
+          "meta": {},
+          "position": {
+            "x": 0,
+            "y": 0.65,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "order": "XYZ"
+          },
+          "quaternion": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "script": {
+            "uuid": "7b3c4095-0814-4315-8aab-964abaeb2353"
+          },
+          "components": [],
+          "scripts": [
+            {
+              "name": "PlayerController",
+              "uuid": "7b3c4095-0814-4315-8aab-964abaeb2353",
+              "code": "return {\n  onReady(node, state) {\n    state.score = 0;\n    state.collected = 0;\n    state.energy = 100;\n    state.seed = 2026;\n    state.rng = new Rng(state.seed);\n    state.speed = 5.4;\n    state.targetPoint = null;\n    state.invulnTimer = 0;\n\n    state.fsm = new StateMachine({\n      initial: 'EXPLORANDO',\n      states: {\n        EXPLORANDO: {\n          enter() {\n            const lbl = node.getNodeOrNull('%StateLabel');\n            if (lbl) lbl.text = 'Estado: EXPLORANDO (WASD / Setas ou Clique em um Cristal)';\n          }\n        },\n        PULSO_MAGNETICO: {\n          enter() {\n            const lbl = node.getNodeOrNull('%StateLabel');\n            if (lbl) lbl.text = 'Estado: ⚡ PULSO MAGNÉTICO ATIVO!';\n          }\n        },\n        ALERTA_IMPACTO: {\n          enter() {\n            const lbl = node.getNodeOrNull('%StateLabel');\n            if (lbl) lbl.text = 'Estado: ⚠️ IMPACTO COM DRONE SENTINELA!';\n          }\n        }\n      }\n    });\n\n    node.defineSignal('crystalCollected');\n    Log.tag('MiniGame').info('Guardião Geométrico iniciado! Use WASD/Setas ou clique nos cristais.');\n  },\n\n  onProcess(dt, node, state) {\n    if (!state.rng) return;\n    if (state.invulnTimer > 0) state.invulnTimer = Math.max(0, state.invulnTimer - dt);\n\n    // 1. Leitura de teclado (WASD / Setas)\n    let dx = 0;\n    let dz = 0;\n    if (Input.isPressed('move_left')) dx -= 1;\n    if (Input.isPressed('move_right')) dx += 1;\n    if (Input.isPressed('move_up')) dz -= 1;\n    if (Input.isPressed('move_down')) dz += 1;\n\n    if (dx !== 0 || dz !== 0) {\n      state.targetPoint = null;\n      const len = Math.hypot(dx, dz) || 1;\n      dx /= len;\n      dz /= len;\n    } else if (state.targetPoint) {\n      const tx = state.targetPoint.x - node.position.x;\n      const tz = state.targetPoint.z - node.position.z;\n      const dist = Math.hypot(tx, tz);\n      if (dist > 0.15) {\n        dx = tx / dist;\n        dz = tz / dist;\n      } else {\n        state.targetPoint = null;\n      }\n    }\n\n    // 2. Pulso magnético por tecla Espaço ou ação da UI\n    if (Input.isJustPressed('action') || state.triggerPulse) {\n      state.triggerPulse = false;\n      if (state.energy >= 25) {\n        state.energy = Math.max(0, state.energy - 25);\n        state.fsm.go('PULSO_MAGNETICO');\n        const tree = node.getTree();\n        const crystals = tree ? tree.getNodesInGroup('cristais') : [];\n        for (const c of crystals) {\n          node.createTween().to(c.position, { x: node.position.x, y: 0.75, z: node.position.z }, 0.22, 'easeInQuad');\n        }\n      }\n    }\n\n    // 3. Re-sortear mapa (Seed RNG)\n    if (state.triggerReroll) {\n      state.triggerReroll = false;\n      state.seed += 7;\n      state.rng = new Rng(state.seed);\n      const tree = node.getTree();\n      const crystals = tree ? tree.getNodesInGroup('cristais') : [];\n      for (const c of crystals) {\n        const angle = state.rng.float(0, Math.PI * 2);\n        const radius = state.rng.float(1.6, 4.6);\n        c.position = { x: Math.cos(angle) * radius, y: 0.75, z: Math.sin(angle) * radius };\n      }\n      Log.tag('MiniGame').info('Novo mapa gerado com Seed #' + state.seed);\n    }\n\n    // 4. Atualizar posição do Jogador limitada ao octógono da arena\n    const nextX = Math.max(-5.2, Math.min(5.2, node.position.x + dx * state.speed * dt));\n    const nextZ = Math.max(-5.2, Math.min(5.2, node.position.z + dz * state.speed * dt));\n    node.position = { x: nextX, y: 0.65, z: nextZ };\n    node.rotation.y += dt * 1.8;\n\n    // Regenerar energia lentamente\n    state.energy = Math.min(100, state.energy + dt * 6);\n\n    // 5. Checar coleta de Cristais\n    const tree = node.getTree();\n    const crystals = tree ? tree.getNodesInGroup('cristais') : [];\n    for (const c of crystals) {\n      const dist = Math.hypot(c.position.x - node.position.x, c.position.z - node.position.z);\n      if (dist < 1.05) {\n        state.collected += 1;\n        state.score += 100;\n        state.energy = Math.min(100, state.energy + 15);\n        Save.set('highScore', Math.max(Save.get('highScore', 0), state.score));\n\n        // Dispara partículas no local da coleta\n        const fx = node.getNodeOrNull('%CollectBurstFX');\n        if (fx) {\n          fx.position = { x: c.position.x, y: 0.8, z: c.position.z };\n          fx.emitBurst(24);\n        }\n\n        // Animação no jogador + Shake suave na câmera\n        const pAnim = node.getNodeOrNull('%PlayerAnim');\n        if (pAnim) {\n          pAnim.play('collect_pop');\n          pAnim.queue('idle_breath');\n        }\n        const cam = node.getNodeOrNull('%MainCamera');\n        if (cam) cam.shake({ strength: 0.14, duration: 0.2 });\n\n        // Reposiciona o cristal com Rng determinístico + Tween de escala\n        const angle = state.rng.float(0, Math.PI * 2);\n        const radius = state.rng.float(1.8, 4.6);\n        c.position = { x: Math.cos(angle) * radius, y: 0.75, z: Math.sin(angle) * radius };\n        c.scale.set(0.15, 0.15, 0.15);\n        c.createTween().to(c.scale, { x: 1, y: 1, z: 1 }, 0.35, 'easeOutBack');\n\n        node.emit('crystalCollected', state.collected, state.score);\n        state.fsm.go('EXPLORANDO');\n      }\n    }\n\n    // 6. Checar proximidade com o Drone Sentinela\n    const drone = node.getNodeOrNull('%DroneSentinela');\n    if (drone && state.invulnTimer <= 0) {\n      const dp = drone.globalPosition;\n      const distDrone = Math.hypot(dp.x - node.position.x, dp.z - node.position.z);\n      if (distDrone < 0.95) {\n        state.invulnTimer = 1.2;\n        state.energy = Math.max(10, state.energy - 20);\n        state.fsm.go('ALERTA_IMPACTO');\n        const cam = node.getNodeOrNull('%MainCamera');\n        if (cam) cam.shake({ strength: 0.28, duration: 0.32 });\n      }\n    }\n\n    // 7. Sincronizar UI (HUD)\n    const scoreLbl = node.getNodeOrNull('%ScoreLabel');\n    if (scoreLbl) {\n      scoreLbl.text = '💎 Cristais: ' + state.collected + '  |  🏆 Pontos: ' + state.score + '  (Recorde: ' + Save.get('highScore', state.score) + ')';\n    }\n    const energyBar = node.getNodeOrNull('%EnergyBar');\n    if (energyBar) {\n      energyBar.value = Math.round(state.energy);\n    }\n    const tagLbl = node.getNodeOrNull('%PlayerTagLabel');\n    if (tagLbl) {\n      tagLbl.text = 'Guardião [' + Math.round(state.energy) + '%]';\n    }\n  }\n};",
+              "enabled": true,
+              "exports": {}
+            }
+          ],
+          "children": [
+            {
+              "type": "Mesh3D",
+              "uuid": "368b2f9e-bc7f-42ea-93d8-0e5e03d7f135",
+              "name": "PlayerHalo",
+              "uniqueName": false,
+              "editorVisible": true,
+              "editorLocked": false,
+              "processMode": "inherit",
+              "processPriority": 0,
+              "tickRate": 0,
+              "runInEditor": false,
+              "groups": [],
+              "meta": {},
+              "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "rotation": {
+                "x": 1.5707963267948966,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "quaternion": {
+                "x": 0.7071067811865475,
+                "y": 0,
+                "z": 0,
+                "w": 0.7071067811865476
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "components": [
+                {
+                  "id": "comp_halo_rot",
+                  "type": "Rotator",
+                  "enabled": true,
+                  "params": {
+                    "speedX": 45,
+                    "speedY": 120,
+                    "speedZ": 0
+                  }
+                }
+              ],
+              "scripts": [],
+              "children": [],
+              "mesh": {
+                "shape": "torus",
+                "shapeParams": {
+                  "radius": 0.82,
+                  "tube": 0.055,
+                  "radialSegments": 12,
+                  "tubularSegments": 28
+                },
+                "material": {
+                  "type": "standard",
+                  "color": "#34d399",
+                  "roughness": 0.35,
+                  "metalness": 0.15,
+                  "emissive": "#10b981",
+                  "emissiveIntensity": 0.7,
+                  "opacity": 1,
+                  "transparent": false,
+                  "wireframe": false,
+                  "side": "front",
+                  "blending": "normal"
+                },
+                "castShadow": true,
+                "receiveShadow": true,
+                "pickable": true
+              }
+            },
+            {
+              "type": "AnimationPlayer",
+              "uuid": "c22f51e3-daaa-43cc-967c-fb045016b4e0",
+              "name": "PlayerAnim",
+              "uniqueName": true,
+              "editorVisible": true,
+              "editorLocked": false,
+              "processMode": "inherit",
+              "processPriority": 0,
+              "tickRate": 0,
+              "runInEditor": false,
+              "groups": [],
+              "meta": {},
+              "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "quaternion": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "components": [],
+              "scripts": [],
+              "children": [],
+              "animationPlayer": {
+                "rootNode": "..",
+                "current": "",
+                "playing": true,
+                "speed": 1,
+                "autoplay": "idle_breath",
+                "resetOnStop": true,
+                "clips": {
+                  "idle_breath": {
+                    "name": "idle_breath",
+                    "length": 1.4,
+                    "loop": true,
+                    "tracks": [
+                      {
+                        "type": "property",
+                        "path": ".",
+                        "property": "scale",
+                        "easing": "easeInOutSine",
+                        "keyframes": [
+                          {
+                            "time": 0,
+                            "value": {
+                              "x": 1,
+                              "y": 1,
+                              "z": 1
+                            }
+                          },
+                          {
+                            "time": 0.7,
+                            "value": {
+                              "x": 1.12,
+                              "y": 1.12,
+                              "z": 1.12
+                            }
+                          },
+                          {
+                            "time": 1.4,
+                            "value": {
+                              "x": 1,
+                              "y": 1,
+                              "z": 1
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "collect_pop": {
+                    "name": "collect_pop",
+                    "length": 0.35,
+                    "loop": false,
+                    "tracks": [
+                      {
+                        "type": "property",
+                        "path": ".",
+                        "property": "scale",
+                        "easing": "easeOutBack",
+                        "keyframes": [
+                          {
+                            "time": 0,
+                            "value": {
+                              "x": 1.48,
+                              "y": 1.48,
+                              "z": 1.48
+                            }
+                          },
+                          {
+                            "time": 0.35,
+                            "value": {
+                              "x": 1,
+                              "y": 1,
+                              "z": 1
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ],
+          "mesh": {
+            "shape": "icosahedron",
+            "shapeParams": {
+              "radius": 0.58,
+              "detail": 0
+            },
+            "material": {
+              "type": "standard",
+              "color": "#10b981",
+              "roughness": 0.2,
+              "metalness": 0.5,
+              "emissive": "#059669",
+              "emissiveIntensity": 0.45,
+              "opacity": 1,
+              "transparent": false,
+              "wireframe": false,
+              "side": "front",
+              "blending": "normal"
+            },
+            "castShadow": true,
+            "receiveShadow": true,
+            "pickable": true
+          }
+        },
+        {
+          "type": "Timer",
+          "uuid": "bc56f8ba-68f4-4c6e-90aa-0ddc985ca3fe",
+          "name": "WaveBonusTimer",
+          "uniqueName": false,
+          "editorVisible": true,
+          "editorLocked": false,
+          "processMode": "inherit",
+          "processPriority": 0,
+          "tickRate": 0,
+          "runInEditor": false,
+          "groups": [],
+          "meta": {},
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "order": "XYZ"
+          },
+          "quaternion": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "components": [],
+          "scripts": [],
+          "children": [],
+          "timer": {
+            "waitTime": 5,
+            "oneShot": false,
+            "autostart": true,
+            "paused": false
+          }
+        },
+        {
+          "type": "UILayer",
+          "uuid": "194db0af-ed89-4ba7-8c57-de8edf310dd9",
+          "name": "HUDLayer",
+          "uniqueName": false,
+          "editorVisible": true,
+          "editorLocked": false,
+          "processMode": "inherit",
+          "processPriority": 0,
+          "tickRate": 0,
+          "runInEditor": false,
+          "groups": [],
+          "meta": {},
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "order": "XYZ"
+          },
+          "quaternion": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "components": [],
+          "scripts": [],
+          "children": [
+            {
+              "type": "Panel",
+              "uuid": "ed0bf8a0-e2cd-4788-90e0-5b20879bc56c",
+              "name": "PainelHUD",
+              "uniqueName": false,
+              "editorVisible": true,
+              "editorLocked": false,
+              "processMode": "inherit",
+              "processPriority": 0,
+              "tickRate": 0,
+              "runInEditor": false,
+              "groups": [],
+              "meta": {},
+              "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "quaternion": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "components": [],
+              "scripts": [],
+              "children": [
+                {
+                  "type": "Label",
+                  "uuid": "b98d7890-4019-495c-9e15-5b633f1c0e20",
+                  "name": "TitleLabel",
+                  "uniqueName": false,
+                  "editorVisible": true,
+                  "editorLocked": false,
+                  "processMode": "inherit",
+                  "processPriority": 0,
+                  "tickRate": 0,
+                  "runInEditor": false,
+                  "groups": [],
+                  "meta": {},
+                  "position": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "rotation": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0,
+                    "order": "XYZ"
+                  },
+                  "quaternion": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0,
+                    "w": 1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "components": [],
+                  "scripts": [],
+                  "children": [],
+                  "control": {
+                    "anchor": "topLeft",
+                    "offset": {
+                      "x": 16,
+                      "y": 16
+                    },
+                    "uiPosition": {
+                      "x": 16,
+                      "y": 16
+                    },
+                    "size": {
+                      "width": 180,
+                      "height": 40
+                    },
+                    "opacity": 1,
+                    "disabled": false,
+                    "tooltip": "",
+                    "style": {},
+                    "anchored3DTarget": null,
+                    "anchored3DOffset": {
+                      "x": 0,
+                      "y": -32
+                    }
+                  },
+                  "label": {
+                    "text": "🔷 GUARDIÃO GEOMÉTRICO — ARENA DOS CRISTAIS",
+                    "fontSize": 13,
+                    "color": "#38bdf8",
+                    "align": "left"
+                  }
+                },
+                {
+                  "type": "Label",
+                  "uuid": "c2b3eda2-6c25-4c34-aeef-49213ffc350a",
+                  "name": "ScoreLabel",
+                  "uniqueName": true,
+                  "editorVisible": true,
+                  "editorLocked": false,
+                  "processMode": "inherit",
+                  "processPriority": 0,
+                  "tickRate": 0,
+                  "runInEditor": false,
+                  "groups": [],
+                  "meta": {},
+                  "position": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "rotation": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0,
+                    "order": "XYZ"
+                  },
+                  "quaternion": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0,
+                    "w": 1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "components": [],
+                  "scripts": [],
+                  "children": [],
+                  "control": {
+                    "anchor": "topLeft",
+                    "offset": {
+                      "x": 16,
+                      "y": 16
+                    },
+                    "uiPosition": {
+                      "x": 16,
+                      "y": 16
+                    },
+                    "size": {
+                      "width": 180,
+                      "height": 40
+                    },
+                    "opacity": 1,
+                    "disabled": false,
+                    "tooltip": "",
+                    "style": {},
+                    "anchored3DTarget": null,
+                    "anchored3DOffset": {
+                      "x": 0,
+                      "y": -32
+                    }
+                  },
+                  "label": {
+                    "text": "💎 Cristais: 0  |  🏆 Pontos: 0",
+                    "fontSize": 15,
+                    "color": "#f8fafc",
+                    "align": "left"
+                  }
+                },
+                {
+                  "type": "Label",
+                  "uuid": "beb23286-f31e-48b5-8b41-d5f56afde3f5",
+                  "name": "StateLabel",
+                  "uniqueName": true,
+                  "editorVisible": true,
+                  "editorLocked": false,
+                  "processMode": "inherit",
+                  "processPriority": 0,
+                  "tickRate": 0,
+                  "runInEditor": false,
+                  "groups": [],
+                  "meta": {},
+                  "position": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "rotation": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0,
+                    "order": "XYZ"
+                  },
+                  "quaternion": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0,
+                    "w": 1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "components": [],
+                  "scripts": [],
+                  "children": [],
+                  "control": {
+                    "anchor": "topLeft",
+                    "offset": {
+                      "x": 16,
+                      "y": 16
+                    },
+                    "uiPosition": {
+                      "x": 16,
+                      "y": 16
+                    },
+                    "size": {
+                      "width": 180,
+                      "height": 40
+                    },
+                    "opacity": 1,
+                    "disabled": false,
+                    "tooltip": "",
+                    "style": {},
+                    "anchored3DTarget": null,
+                    "anchored3DOffset": {
+                      "x": 0,
+                      "y": -32
+                    }
+                  },
+                  "label": {
+                    "text": "Estado: EXPLORANDO (WASD / Setas ou Clique em um Cristal)",
+                    "fontSize": 12,
+                    "color": "#94a3b8",
+                    "align": "left"
+                  }
+                },
+                {
+                  "type": "ProgressBar",
+                  "uuid": "3905179d-57d4-4743-90f8-bcd63b4c4988",
+                  "name": "EnergyBar",
+                  "uniqueName": true,
+                  "editorVisible": true,
+                  "editorLocked": false,
+                  "processMode": "inherit",
+                  "processPriority": 0,
+                  "tickRate": 0,
+                  "runInEditor": false,
+                  "groups": [],
+                  "meta": {},
+                  "position": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "rotation": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0,
+                    "order": "XYZ"
+                  },
+                  "quaternion": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0,
+                    "w": 1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "components": [],
+                  "scripts": [],
+                  "children": [],
+                  "control": {
+                    "anchor": "topLeft",
+                    "offset": {
+                      "x": 16,
+                      "y": 16
+                    },
+                    "uiPosition": {
+                      "x": 16,
+                      "y": 16
+                    },
+                    "size": {
+                      "width": 180,
+                      "height": 40
+                    },
+                    "opacity": 1,
+                    "disabled": false,
+                    "tooltip": "",
+                    "style": {},
+                    "anchored3DTarget": null,
+                    "anchored3DOffset": {
+                      "x": 0,
+                      "y": -32
+                    }
+                  },
+                  "progressBar": {
+                    "min": 0,
+                    "max": 100,
+                    "value": 100,
+                    "showPercentage": true,
+                    "fillColor": "#10b981"
+                  }
+                },
+                {
+                  "type": "Button",
+                  "uuid": "9cc28e10-dcd9-4f76-80c6-210681b86030",
+                  "name": "PulseButton",
+                  "uniqueName": true,
+                  "editorVisible": true,
+                  "editorLocked": false,
+                  "processMode": "inherit",
+                  "processPriority": 0,
+                  "tickRate": 0,
+                  "runInEditor": false,
+                  "groups": [],
+                  "meta": {},
+                  "position": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "rotation": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0,
+                    "order": "XYZ"
+                  },
+                  "quaternion": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0,
+                    "w": 1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "components": [],
+                  "scripts": [],
+                  "children": [],
+                  "control": {
+                    "anchor": "topLeft",
+                    "offset": {
+                      "x": 16,
+                      "y": 16
+                    },
+                    "uiPosition": {
+                      "x": 16,
+                      "y": 16
+                    },
+                    "size": {
+                      "width": 180,
+                      "height": 40
+                    },
+                    "opacity": 1,
+                    "disabled": false,
+                    "tooltip": "",
+                    "style": {},
+                    "anchored3DTarget": null,
+                    "anchored3DOffset": {
+                      "x": 0,
+                      "y": -32
+                    }
+                  },
+                  "button": {
+                    "text": "⚡ Pulso Magnético (Espaço)",
+                    "actionId": "pulse_collect"
+                  }
+                },
+                {
+                  "type": "Button",
+                  "uuid": "76184f0d-7d67-4082-b235-4a565b136e7a",
+                  "name": "ResetGameButton",
+                  "uniqueName": true,
+                  "editorVisible": true,
+                  "editorLocked": false,
+                  "processMode": "inherit",
+                  "processPriority": 0,
+                  "tickRate": 0,
+                  "runInEditor": false,
+                  "groups": [],
+                  "meta": {},
+                  "position": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "rotation": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0,
+                    "order": "XYZ"
+                  },
+                  "quaternion": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0,
+                    "w": 1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "components": [],
+                  "scripts": [],
+                  "children": [],
+                  "control": {
+                    "anchor": "topLeft",
+                    "offset": {
+                      "x": 16,
+                      "y": 16
+                    },
+                    "uiPosition": {
+                      "x": 16,
+                      "y": 16
+                    },
+                    "size": {
+                      "width": 180,
+                      "height": 40
+                    },
+                    "opacity": 1,
+                    "disabled": false,
+                    "tooltip": "",
+                    "style": {},
+                    "anchored3DTarget": null,
+                    "anchored3DOffset": {
+                      "x": 0,
+                      "y": -32
+                    }
+                  },
+                  "button": {
+                    "text": "🎲 Gerar Novo Mapa (RNG)",
+                    "actionId": "reroll_map"
+                  }
+                }
+              ],
+              "control": {
+                "anchor": "topLeft",
+                "offset": {
+                  "x": 16,
+                  "y": 16
+                },
+                "uiPosition": {
+                  "x": 16,
+                  "y": 16
+                },
+                "size": {
+                  "width": 420,
+                  "height": 148
+                },
+                "opacity": 1,
+                "disabled": false,
+                "tooltip": "",
+                "style": {},
+                "anchored3DTarget": null,
+                "anchored3DOffset": {
+                  "x": 0,
+                  "y": -32
+                }
+              }
+            },
+            {
+              "type": "Label",
+              "uuid": "a46c647e-0b7f-4c81-842d-d51d290dbc08",
+              "name": "PlayerTagLabel",
+              "uniqueName": true,
+              "editorVisible": true,
+              "editorLocked": false,
+              "processMode": "inherit",
+              "processPriority": 0,
+              "tickRate": 0,
+              "runInEditor": false,
+              "groups": [],
+              "meta": {},
+              "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "quaternion": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "components": [],
+              "scripts": [],
+              "children": [],
+              "control": {
+                "anchor": "topLeft",
+                "offset": {
+                  "x": 16,
+                  "y": 16
+                },
+                "uiPosition": {
+                  "x": 16,
+                  "y": 16
+                },
+                "size": {
+                  "width": 180,
+                  "height": 40
+                },
+                "opacity": 1,
+                "disabled": false,
+                "tooltip": "",
+                "style": {},
+                "anchored3DTarget": "PlayerCore",
+                "anchored3DOffset": {
+                  "x": 0,
+                  "y": -38
+                }
+              },
+              "label": {
+                "text": "Guardião [100%]",
+                "fontSize": 12,
+                "color": "#a7f3d0",
+                "align": "left"
+              }
+            }
+          ],
+          "uiLayer": {
+            "layer": 1,
+            "scaleMode": "scaleWithScreen",
+            "referenceResolution": {
+              "width": 1280,
+              "height": 720
+            },
+            "visible": true
+          }
+        }
+      ]
+    }
+  ]
+}

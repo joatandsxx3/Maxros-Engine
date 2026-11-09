@@ -1,0 +1,7 @@
+{
+  "name": "ArenaOctogonalMaterial",
+  "type": "standard",
+  "color": "#1e293b",
+  "roughness": 0.65,
+  "metalness": 0.25
+}

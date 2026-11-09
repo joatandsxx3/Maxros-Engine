@@ -1,0 +1,882 @@
+Core3D Studio: API de nós, recursos e classes nativas
+Especificação detalhada do que é cena e do que é código nativo, com atributos e métodos. Sem código: só nomes e comportamento.
+Convenções
+• Nomes de classes, métodos e atributos em inglês, camelCase (seguem o padrão do código atual). As descrições são em português.
+• [Cena]: nó que você monta e vê no preview.
+• [Recurso]: dado reutilizável, salvo em arquivo.
+• [Nativo]: classe de código da engine, configurável.
+• [Serviço]: algo que vive o jogo todo.
+• [Seu código]: regra do jogo.
+• Nada de interface pronta (modal, toast, tooltip, banner) no nativo: tudo isso é cena sua.
+• O EngineNode atual vira Node + Node3D. Os nomes antigos continuam como apelido, para as cenas já salvas abrirem.
+1. Regra para decidir onde algo vive
+Pergunta
+Se sim, é
+Tem posição no mundo ou na tela, aparece ou toca, e você quer arrastar/editar no preview?
+Nó [Cena]
+É um dado que vários nós usam (textura, material, clipe, curva, tema, carta)?
+Recurso
+É lógica reutilizável, sem lugar na cena, com opções?
+Classe nativa
+Precisa sobreviver à troca de cena e viver o jogo todo?
+Serviço (script ou cena)
+É regra do seu jogo (dano, IA, fases, cartas)?
+Seu código
+2. Árvore de classes
+• Node
+    ◦ Node3D
+        ▪ Camera3D
+        ▪ Light3D: DirectionalLight3D, PointLight3D, SpotLight3D, AmbientLight3D, HemisphereLight3D
+        ▪ Mesh3D
+        ▪ Sprite3D
+        ▪ Label3D
+        ▪ Particles3D
+        ▪ Path3D e PathFollow3D
+        ▪ PickArea3D
+        ▪ RigidBody3D e CollisionShape3D (já existem)
+    ◦ UILayer
+        ▪ Control: Panel, Label, Button, CheckBox, Slider, ProgressBar, TextureRect, TextInput, HBox, VBox, Grid, ScrollContainer
+    ◦ Timer
+    ◦ AudioPlayer
+    ◦ AnimationPlayer
+Criar um tipo novo é criar uma classe que estende outra (por exemplo CartaNode estendendo Node3D). Ela declara suas propriedades, e o inspetor, o salvar/carregar e o menu criar nó passam a conhecer o tipo sozinhos.
+3. Node (base de tudo) [Nativo]
+Não tem posição. É só árvore, ciclo de vida, scripts, sinais e grupos.
+Atributos
+Atributo
+Descrição
+name
+Nome do nó. Único entre irmãos.
+uniqueName
+Se verdadeiro, o nó pode ser achado por getNodeByName em toda a cena.
+uuid
+Identificador fixo (somente leitura). Preservado ao reconstruir a cena.
+parent, children
+Somente leitura.
+tree
+A SceneTree, ou vazio se o nó está fora da árvore.
+owner
+A cena (arquivo) a que o nó pertence.
+scripts
+Lista de scripts anexados, em ordem.
+groups
+Lista de grupos do nó.
+processMode
+inherit, pausable, always ou disabled. Define se roda quando o jogo está pausado.
+processPriority
+Número que ordena quem roda primeiro.
+tickRate
+Frequência do onTick em Hz. Zero desliga.
+runInEditor
+Se verdadeiro, os scripts rodam no preview, sem Play.
+editorVisible, editorLocked
+Já existem (olho e cadeado da árvore).
+isInsideTree, isReady, isDestroyed
+Estados, somente leitura.
+meta
+Dicionário livre para o que você quiser guardar.
+Métodos
+Grupo
+Métodos
+Hierarquia
+addChild(node, {index}), removeChild(node), moveChild(node, index), reparent(novoPai, {keepGlobal}), getParent(), getChildren(), getChildCount(), getChild(i), isAncestorOf(node)
+Achar
+getNode(caminho), getNodeOrNull(caminho), hasNode(caminho), getNodeByName(nome), findChild(nome, {recursive}), findChildren(filtro), getPath()
+Vida
+destroy() (apaga no fim do frame), duplicate({deep})
+Grupos
+addToGroup(g), removeFromGroup(g), isInGroup(g)
+Scripts
+attachScript(script), getScript(nome)
+Sinais
+defineSignal(nome), connect(sinal, fn, {once}), disconnect(sinal, fn), emit(sinal, ...args), waitFor(sinal) (devolve algo que se espera com await)
+Tempo
+wait(segundos) (respeita pausa e timeScale), every(segundos, fn) (devolve um controle para cancelar), createTween()
+Arquivo
+serialize(), deserialize() (já existem)
+Caminhos: getNode("Arena/Slots/Jogador") é relativo ao nó. Começando com / é absoluto, a partir da raiz.
+Sinais embutidos
+ready, enteredTree, exitingTree, childAdded, childRemoved, renamed, destroyed.
+Ganchos do script
+Gancho
+Quando roda
+onEnterTree()
+Ao entrar na árvore.
+onReady()
+Uma vez, depois de todos os filhos estarem prontos. Pode ser assíncrono.
+onProcess(delta)
+Todo frame. O delta é limitado a 0,05 s.
+onPhysicsProcess(fixedDelta)
+Passo fixo (60 por segundo por padrão), com acumulador.
+onTick(n, tickDelta)
+Passo lógico em taxa própria (tickRate), contado.
+onInput(evento)
+A cada entrada. evento.consume() impede que chegue aos outros.
+onExitTree()
+Ao sair da árvore.
+onDestroy()
+Antes de ser apagado.
+Ordem do onReady: filhos antes dos pais. Ordem do onProcess: pais antes dos filhos, ajustável por processPriority.
+4. SceneTree: o que getTree() devolve [Nativo]
+Substitui o papel do main.js de "conhecer tudo".
+Atributo
+Descrição
+root
+Raiz de tudo (serviços e cena atual ficam sob ela).
+currentScene
+Cena em execução.
+currentCamera
+Câmera marcada como atual (somente leitura).
+paused
+Pausa os nós com processMode pausável.
+timeScale
+Multiplica o delta (0,25x, 1x, 2x...).
+time, frame
+Segundos e frames desde o Play.
+isPlaying, isPreview
+Em qual modo está.
+nodeCount
+Total de nós vivos.
+Método
+Descrição
+changeScene(cena)
+Troca a cena atual (assíncrono). Os serviços sobrevivem.
+reloadScene()
+Recarrega a cena atual do zero.
+instantiate(cena, {parent, props})
+Cria uma cópia de uma cena modelo e devolve o nó.
+getService(nome), hasService(nome)
+Acessa os serviços globais.
+getNodesInGroup(g)
+Lista os nós de um grupo.
+callGroup(g, metodo, ...args)
+Chama um método em todos do grupo.
+setGroupProperty(g, prop, valor)
+Muda uma propriedade em todos do grupo.
+emitGroup(g, sinal, ...args)
+Emite um sinal em todos do grupo.
+createTimer(segundos)
+Devolve algo que se espera com await.
+stop()
+Para o Play (com o reset automático).
+Sinais: sceneChanged, pausedChanged, nodeAdded, nodeRemoved.
+Ordem de changeScene: exitingTree e destroy na cena antiga, carrega a nova, enteredTree, onReady.
+5. Ciclo de execução
+Modos
+Modo
+O que roda
+Preview (editor)
+Só scripts com runInEditor. Sem física, sem serviços.
+Executar jogo (Play)
+Serviços, scripts, tweens, animações, física e áudio. Usa a câmera atual da cena.
+Simular física
+O que já existe hoje: só física. Parar restaura a cena.
+Ao parar o Play ou a simulação, vale a regra atual: a cena volta ao snapshot de antes.
+Ordem dentro de um frame no Play
+1. Entrada (onInput).
+2. onTick, as vezes que o acumulador pedir.
+3. onPhysicsProcess e o passo da física, as vezes que o acumulador pedir (no máximo 5 de recuperação).
+4. onProcess(delta).
+5. Animações, tweens e timers.
+6. Apagar os nós marcados com destroy().
+7. Desenhar.
+6. Scripts: como se ligam a um nó
+• Um script declara de que tipo de nó ele parte (Node, Node3D, CartaNode...).
+• Propriedades expostas (exports): cada uma tem tipo, valor padrão, faixa e descrição. Aparecem no inspetor e são salvas na cena.
+• Vários scripts por nó, executados na ordem da lista.
+• O script recarrega ao salvar, sem reiniciar o Play.
+• Linguagem: JavaScript, como o resto do projeto.
+7. Node3D e os nós do mundo 3D [Cena]
+Node3D (base de tudo que tem posição)
+Atributo
+Descrição
+position, rotation, scale
+Em código, sempre locais. Rotação em radianos no código e em graus no inspetor.
+globalPosition, globalQuaternion
+Valores no mundo. Existem já hoje.
+quaternion
+Rotação interna, sem gimbal lock.
+visible
+Mostra ou esconde o nó e os filhos.
+renderOrder
+Ordem de desenho (para sobrepor transparências).
+No inspetor continua um único campo Position: global se o nó está no topo, local se é filho.
+Método
+Descrição
+lookAt(alvo, cima)
+Vira o nó para um ponto.
+translate(v), rotate(eixo, ângulo)
+Move e gira em relação ao próprio nó.
+toGlobal(ponto), toLocal(ponto)
+Converte entre os dois espaços.
+shake(config)
+Atalho para a classe Shake aplicada a este nó.
+Sinais: transformChanged, visibilityChanged.
+Camera3D
+Atributo
+Descrição
+current
+Se é a câmera usada no Play. Só uma por vez.
+projection
+perspective ou orthographic.
+fov
+Campo de visão (perspectiva).
+size
+Altura visível (ortográfica).
+near, far
+Planos de corte.
+Método
+Descrição
+makeCurrent()
+Torna esta a câmera atual.
+worldToScreen(ponto)
+Devolve posição em pixels e se está na frente da câmera.
+screenToRay(x, y)
+Devolve origem e direção de um raio saindo daquele pixel.
+screenToWorld(x, y, planoY)
+Ponto onde o raio cruza um plano horizontal.
+shake(config)
+Tremor da câmera.
+No editor, a câmera aparece como ícone com o cone de visão. O preview usa a câmera livre do editor e não precisa dela. Ao dar Play, se nenhuma estiver marcada, o Console avisa.
+Luzes (Light3D e filhas)
+Atributo
+Em quem
+Descrição
+color, intensity
+todas
+Cor e força.
+castShadow, shadowSize, shadowBias
+Directional, Point, Spot
+Sombra e qualidade.
+range, decay
+Point, Spot
+Alcance e queda com a distância.
+angle, penumbra
+Spot
+Abertura do cone e suavidade da borda.
+shadowArea
+Directional
+Tamanho da área coberta pela sombra.
+skyColor, groundColor
+Hemisphere
+Cor de cima e de baixo.
+A direção da luz direcional vem da rotação do nó. O tremular de chama é feito por script ou animação na propriedade intensity.
+Mesh3D
+Atributo
+Descrição
+shape
+box, sphere, cylinder, cone, torus, torusKnot, plane, octahedron, icosahedron.
+shapeParams
+Medidas da forma (tamanho, raio, altura, segmentos).
+material
+Recurso Material.
+castShadow, receiveShadow
+Sombras.
+pickable
+Se verdadeiro, emite os mesmos sinais da PickArea3D.
+Métodos: setMaterial(m), getMaterial().
+Sprite3D (já existe)
+Atributo
+Descrição
+texture
+Texture (imagem ou canvas).
+mode
+sprite (sempre de frente para a câmera) ou plane (malha).
+size, tint, opacity
+Tamanho, cor aplicada e transparência.
+blending
+normal ou additive.
+flipX, flipY
+Espelhar.
+hframes, vframes, frame
+Folha de quadros. frame pode ser animado pelo AnimationPlayer.
+pickable
+Igual ao Mesh3D.
+Label3D
+Texto no espaço 3D: text, font, fontSize, color, outlineColor, outlineSize, align, maxWidth, billboard, opacity.
+Particles3D
+Atributo
+Descrição
+emitting, oneShot
+Liga a emissão; oneShot emite uma rajada só.
+amount, lifetime
+Quantidade e vida de cada partícula.
+explosiveness
+De 0 (contínuo) a 1 (tudo de uma vez).
+spawnShape, shapeSize
+point, sphere, box, ring, cone e o tamanho.
+direction, spread
+Direção e abertura em graus.
+speedMin, speedMax, gravity, damping
+Movimento.
+sizeStart, sizeEnd
+Tamanho no nascimento e no fim.
+colorOverLife, opacityOverLife
+Gradiente e curva ao longo da vida.
+rotationSpeed
+Giro.
+texture, blending
+Imagem da partícula e mistura (additive para fogo e brilho).
+localSpace, faceCamera, seed
+Segue o pai, sempre de frente, e semente para repetir o efeito.
+Métodos: restart(), emitBurst(qtd), stop(), clear(). Sinal: finished. No editor há um botão para tocar o efeito no preview.
+Path3D e PathFollow3D
+Classe
+Atributos e métodos
+Path3D
+curve (recurso Curve3D: pontos com alças), closed.
+PathFollow3D
+progress (0 a 1), loop, rotateAlongPath, offset. Animável por clipe ou tween.
+Curve3D
+points, sample(t) devolve posição e tangente.
+Serve para o projétil em arco da flecha, por exemplo.
+PickArea3D (zona clicável, sem física)
+Atributo
+Descrição
+shape, size
+Caixa, esfera ou retângulo que recebe o clique.
+enabled
+Liga e desliga.
+pickPriority
+Quem ganha quando há sobreposição.
+cursor
+Cursor exibido ao passar por cima.
+Sinais: pointerEnter, pointerExit, pointerDown, pointerUp, clicked. Não depende do PhysicsServer: usa o raio da câmera atual.
+8. Recursos [Recurso]
+Material
+Atributo
+Descrição
+color, map
+Cor e textura de cor.
+normalMap, normalScale
+Relevo.
+emissive, emissiveIntensity, emissiveMap
+Brilho próprio.
+roughness, metalness
+Acabamento.
+opacity, transparent, alphaTest
+Transparência.
+blending
+normal ou additive.
+doubleSided, depthWrite, depthTest, fog
+Opções de desenho.
+unlit
+Ignora luz (material “chapado”).
+uvRepeat, uvOffset
+Repetição e deslocamento da textura.
+Método: clone().
+Texturas
+Recurso
+Atributos
+ImageTexture
+path, colorSpace (srgb para cor, linear para normal map), wrap, filter, flipY.
+CanvasTexture
+width, height, drawFn (função de desenho do seu script), colorSpace. Métodos: redraw(), getCanvas(). Sinal: drawn.
+CanvasTexture é recurso, não nó: cada carta cria a sua instância, com seus dados, e liga a um material, a um Sprite3D ou a um TextureRect. O layout da face (o que o cardTexture.js faz hoje) é script seu.
+Canvas2D [Nativo]
+Usada dentro da drawFn.
+Grupo
+Métodos
+Formas
+clear(), fillRect, strokeRect, roundRect, line, circle
+Cor
+linearGradient, radialGradient, setAlpha, setBlend
+Texto
+drawText(texto, x, y, {font, size, color, align, baseline, maxWidth, shadow}), measureText, wrapText(texto, larguraMax) (devolve as linhas)
+Imagem
+drawImage(textura, x, y, w, h)
+Estado
+save(), restore(), translate, rotate, scale, clip
+Atributos: width, height e context (acesso direto ao canvas, para quem precisar).
+Environment (já iniciado com o fundo de cor sólida)
+Grupo
+Atributos
+Fundo
+mode (color, gradient, skybox, transparent), color, skybox
+Névoa
+fogType (none, linear, exp), fogColor, fogDensity, fogNear, fogFar
+Imagem
+toneMapping (none, linear, filmic, reinhard), exposure
+Sombras
+shadowsEnabled, shadowType (basic, soft)
+Qualidade
+antialias, maxPixelRatio
+O preview e o Play usam o mesmo Environment da cena.
+9. Nós de tempo, áudio e animação [Cena]
+Timer
+Atributo
+Descrição
+waitTime
+Duração em segundos.
+oneShot, autostart, paused
+Dispara uma vez, começa sozinho, pausado.
+Métodos: start(tempo), stop(). Sinal: timeout.
+AudioPlayer
+Atributo
+Descrição
+stream
+Recurso AudioClip.
+streams, pickMode
+Lista de sons e como escolher (random ou sequential), para alternar vocalizações.
+bus
+master, music, sfx ou outro criado por você.
+volume, rate
+Volume (0 a 1) e velocidade/tom.
+startAt, maxDuration
+Corta o silêncio do início e limita a duração.
+fadeIn, fadeOut
+Fades em segundos.
+loop, autoplay
+Repetir e tocar ao entrar na árvore.
+maxPolyphony
+Quantas instâncias podem tocar ao mesmo tempo.
+playing, position
+Somente leitura.
+Métodos: play(de), stop(fade), pause(), resume(), seek(t). Sinais: started, finished. No inspetor há um botão para ouvir.
+Audio [Nativo, global]
+Método
+Descrição
+createBus(nome)
+Cria um barramento.
+setBusVolume(bus, v), getBusVolume(bus)
+Volume de um barramento.
+muteBus(bus, sim)
+Silencia.
+unlock()
+Libera o áudio no primeiro gesto do usuário (regra do navegador). É chamado sozinho.
+Playlist [Recurso + Nativo]
+Atributo
+Descrição
+tracks
+Lista de AudioClip.
+mode
+shuffleNoRepeat, sequential ou random.
+bus, volume, crossfade
+Saída e transição.
+Métodos: play(), next(), pause() (guarda o ponto), resume() (volta do ponto), stop(fade). Sinais: trackChanged, finished. O comportamento da música do TCG (pausar a normal, tocar a de combate, voltar do mesmo ponto) é feito com duas Playlist.
+AnimationPlayer
+Atributo
+Descrição
+clips
+Mapa de nome para AnimationClip.
+rootNode
+Caminho base das trilhas.
+current, playing
+Estado, somente leitura.
+speed, autoplay
+Velocidade e clipe inicial.
+resetOnStop
+Se verdadeiro, volta à pose original ao parar.
+Método
+Descrição
+play(nome, {speed, from, backwards, blendTime})
+Toca um clipe.
+stop({reset}), pause(), resume()
+Controle.
+seek(t)
+Vai para um instante.
+queue(nome)
+Toca depois do atual.
+has(nome), getLength(nome)
+Consulta.
+addClip(nome, clip), removeClip(nome)
+Em runtime.
+Sinais: started(nome), finished(nome), looped(nome), event(nome, dados). Use waitFor("finished") para esperar o fim.
+AnimationClip [Recurso]: length, loop (none, loop, pingpong) e tracks.
+Tipo de trilha
+O que faz
+Propriedade
+Anima qualquer propriedade de qualquer nó (posição, rotação, escala, opacidade, cor, intensity de luz, frame de sprite). Keyframes com tempo, valor e interpolação (linear, ease, step). Opção relative anima a partir da pose atual, como o ataque do TCG.
+Chamada
+Chama um método do nó num instante.
+Evento
+Emite o sinal event com dados num instante (tocar som, soltar efeito).
+Visibilidade
+Liga e desliga um nó.
+Áudio
+Toca um AudioClip num instante.
+Sub-animação
+Dispara outro clipe.
+No editor: linha do tempo em painel, arrastar para ver o quadro, tocar no preview e gravar (mover o gizmo cria keyframe). Ao sair do preview a pose volta ao que era.
+10. Classes nativas sem posição [Nativo]
+Tween
+Criado por node.createTween(). Para por conta própria se o nó for apagado.
+Método
+Descrição
+to(alvo, propriedade, valor, duracao, {easing, delay})
+Anima uma propriedade até um valor.
+custom(duracao, fn, {easing})
+Chama fn(t) com t de 0 a 1. Serve para curvas como o arco do ataque.
+wait(segundos), call(fn)
+Pausa e chamada dentro da sequência.
+parallel(), sequence()
+Agrupa passos juntos ou em fila.
+loop(n), kill(), pause(), resume()
+Controle.
+Atributos: running, speed. Sinais: finished, stepFinished. Pode ser esperado com await.
+Easing
+Easing.get(nome) devolve a função. Nomes: linear e easeIn, easeOut, easeInOut de Sine, Quad, Cubic, Quart, Expo, Back, Elastic, Bounce. Um recurso Curve também pode servir de easing.
+Rng
+Criado com uma semente. Determinístico (o mesmo algoritmo do rng.js do TCG).
+Método
+Descrição
+next()
+Número de 0 a 1.
+int(min, max), float(min, max)
+Dentro de uma faixa.
+chance(p)
+Verdadeiro com probabilidade p.
+pick(lista), weighted(itens, pesos)
+Sorteia.
+shuffle(lista)
+Devolve uma lista embaralhada.
+fork(nome)
+Cria um Rng independente derivado deste (o TCG faz isso para a IA).
+getState(), setState(s)
+Guardar e restaurar o ponto exato.
+Atributo: seed. Estático: Rng.randomSeed().
+Shake
+Atributo
+Descrição
+strength
+Força.
+duration
+Duração.
+frequency
+Velocidade da oscilação.
+decay
+Como a força cai (linear, ease).
+axes
+Peso por eixo (X, Y, Z).
+seed
+Para repetir o mesmo tremor.
+Método: Shake.play(no, config), que devolve um controle e restaura a pose ao terminar. Sinal: finished.
+StateMachine
+Atributos: states (mapa de nome para onEnter, onExit, onUpdate), current, previous, history. Métodos: go(nome, dados), can(nome), update(delta). Sinal: stateChanged. Serve para as fases de rodada do TCG, mas as fases em si são suas.
+Signal
+Para classes suas que não são nós: new Signal() com connect, once, disconnect, emit e waitFor.
+Save
+Método
+Descrição
+Save.set(chave, valor), Save.get(chave, padrao)
+Grava e lê.
+Save.has(chave), Save.remove(chave), Save.clear(prefixo)
+Gerencia.
+Save.slot(nome)
+Separa dados por perfil.
+Atributos: namespace (por projeto), version, migrate (função para atualizar dados antigos). No Play do editor, os dados vão para um espaço de teste, com opção de limpar ao parar.
+Input
+Item
+Descrição
+Input.isPressed(ação), isJustPressed, isJustReleased
+Estado de uma ação.
+Input.getPointer()
+Posição do ponteiro na tela.
+Mapa de ações
+Nas configurações do projeto: ação → teclas e botões.
+Evento
+tipo, tecla, ação, ponteiro, consume().
+11. UI [Cena]
+Tudo que a interface do TCG faz hoje (menu, mão, painel, modal, toast, banner, tooltip, log da partida, catálogo) é cena sua, feita com estes nós.
+UILayer
+Raiz de uma interface, desenhada por cima do 3D.
+Atributo
+Descrição
+layer
+Ordem entre camadas de UI.
+scaleMode
+fixed ou scaleWithScreen.
+referenceResolution
+Resolução em que a UI foi desenhada.
+visible
+Mostra ou esconde tudo.
+Control (base de todos os nós de UI)
+Atributo
+Descrição
+anchorLeft, anchorTop, anchorRight, anchorBottom
+Ancoragem de 0 a 1 em relação ao pai.
+offsetLeft, offsetTop, offsetRight, offsetBottom
+Margens a partir da âncora.
+size, minSize, pivot, rotation, scale
+Geometria.
+sizeFlags
+Como ocupa espaço dentro de containers (fill, expand, center).
+visible, opacity, zIndex, clipContent
+Aparência.
+mouseFilter
+stop, pass ou ignore.
+theme, styleOverrides
+Tema e ajustes locais.
+anchorTo3D, anchorOffset, hideWhenBehind
+Prende o controle a um nó 3D: a posição na tela segue a projeção desse nó (HUD de vida presa ao monstro).
+Métodos: show(), hide(), moveToFront(), grabFocus(), setAnchorsPreset(preset), getGlobalRect(). Sinais: pointerEnter, pointerExit, pointerDown, pointerUp, clicked, resized, focusEntered, focusExited.
+Os controles
+Controle
+Atributos principais
+Sinais
+Panel
+background (cor, degradê ou imagem), border, radius, shadow, padding
+
+Label
+text, font, fontSize, color, align, valign, wrap, ellipsis, outline, shadow, richText
+
+Button
+text, icon, disabled, toggleMode, pressed
+pressed, toggled
+CheckBox
+text, checked
+toggled
+Slider
+min, max, step, value
+valueChanged
+ProgressBar
+min, max, value, fillColor, showText (método animateTo(valor, duracao))
+
+TextureRect
+texture, fit (stretch, cover, contain), tint, flip
+
+TextInput
+text, placeholder, maxLength
+textChanged, submitted
+HBox, VBox
+spacing, align, padding
+
+Grid
+columns, hSpacing, vSpacing
+
+ScrollContainer
+horizontal, vertical, scrollX, scrollY
+scrolled
+Theme [Recurso]
+Cores, fontes, tamanhos e estilos por tipo de controle e por estado (normal, hover, apertado, desativado). Pode ser aplicado numa UILayer ou num Control, e cada controle pode sobrescrever o que quiser.
+No editor: escolher uma resolução de prévia (por exemplo 1000 por 700 e 1920 por 1080) para conferir o layout responsivo.
+12. Dados do jogo [Recurso]
+DataResource (tipo definido por você)
+Você define um tipo (por exemplo Card) com campos: nome, tipo, valor padrão, faixa, opções e descrição. O inspetor gera o formulário sozinho, e cada carta é um arquivo. Um tipo pode apontar para uma cena de prévia, para ver a carta ao selecioná-la.
+ResourceRegistry [Nativo]
+Método
+Descrição
+register(tipo)
+Cadastra um tipo de dado.
+get(tipo, id), all(tipo), filter(tipo, fn)
+Consulta.
+validate()
+Confere ids únicos e campos obrigatórios. Os problemas vão para o Console.
+Isso substitui o cards/index.js do TCG, com a mesma garantia de id único.
+13. Serviços globais [Serviço]
+Item
+Como funciona
+Cadastro
+Lista nas Configurações do Projeto. Cada item tem name, source (script ou cena), enabled e posição na ordem.
+Carga
+Antes da cena principal, na ordem da lista. Serviço de só script ganha um nó anônimo como casa.
+Vida
+Sobrevive a changeScene. Tem o mesmo ciclo de vida de um nó (onReady, onProcess etc.).
+Acesso
+getTree().getService("Som").
+Parar o Play
+Todos são destruídos e recriados no próximo Play.
+Erro ao subir
+Vai para o Console com código e pode parar o Play.
+Exemplos para o TCG: Som (cena com AudioPlayer, Playlist e barramentos), Configuracoes (volume e modo rápido via Save), Partida (estado e regras do jogo, sem nós).
+Configurações do Projeto também guardam: cena principal, resolução de referência, passo fixo da física, tickRate padrão e o mapa de ações de entrada.
+14. Console de depuração [Nativo + painel do editor]
+Funciona no preview e no Play.
+O que aparece no painel
+• Barra com níveis (log, info, warn, error, debug), busca, filtro por etiqueta, limpar e contador de erros.
+• Erros repetidos se agrupam em uma linha com contador.
+• Opção pausar no primeiro erro.
+• Painel de detalhe do item selecionado.
+Campos de cada entrada
+Campo
+Descrição
+level, time, frame
+Nível, hora e frame do Play.
+message, tag
+Texto e etiqueta (combate, áudio).
+nodePath
+Caminho do nó de origem.
+scriptPath, line, column
+Arquivo, linha e coluna no seu script.
+stack
+Pilha de chamadas só com código seu (a interna da engine fica recolhida).
+excerpt
+Trecho com 3 linhas antes e 3 depois, linha do erro destacada e marca na coluna.
+code
+Código do erro (por exemplo E101), com link para a explicação.
+count
+Quantas vezes se repetiu.
+Clicar na entrada abre o script na linha. Isso exige o editor de scripts dentro do Studio, com números de linha, destaque de sintaxe e ir para a linha.
+O que o Console captura
+• Exceção em qualquer gancho (onReady, onProcess, onInput...).
+• Erro dentro de await (promessa rejeitada sem tratamento).
+• Erro em função ligada a sinal, timer, tween ou clipe.
+• Erro de sintaxe, detectado ao salvar o script (antes do Play).
+• Falha ao carregar cena, recurso ou áudio.
+• Erros da própria engine, sempre com código.
+• Falha nos testes automáticos (aparece também na aba de testes).
+Um erro em um gancho não derruba o jogo nem o editor: ele é registrado e o frame segue. Se o mesmo script falhar muitas vezes seguidas, o Console oferece desativar aquele script para não inundar o painel.
+Para as linhas baterem com o editor, os scripts são executados com nome de arquivo próprio e sem alterar a numeração das linhas.
+API de log para você
+Método
+Descrição
+Log.log(...), info, warn, error, debug
+Escreve no Console, já com nó e script de origem.
+Log.assert(condição, mensagem)
+Registra erro se a condição for falsa.
+Log.tag(nome)
+Devolve um log com etiqueta fixa.
+Log.group(nome), Log.groupEnd()
+Agrupa linhas.
+Log.setLevel(nível)
+Esconde o que estiver abaixo do nível.
+Mensagens que ajudam
+• getNode não achou: mostra o caminho procurado e os caminhos parecidos que existem.
+• Uso de nó já apagado: diz qual nó e onde foi chamado destroy().
+• Propriedade exposta faltando ou com tipo errado: diz qual script e qual propriedade.
+• Sem câmera atual ao dar Play.
+• Áudio bloqueado pelo navegador: avisa que está esperando o primeiro gesto.
+Códigos de erro (lista inicial)
+Código
+Significado
+E101
+Caminho de nó não encontrado.
+E102
+Nó usado depois de apagado.
+E103
+Operação exige nó dentro da árvore.
+E104
+Sinal não definido.
+E105
+Propriedade exposta ausente ou de tipo inválido.
+E106
+Nenhuma câmera atual ao dar Play.
+E107
+Recurso ou asset não encontrado.
+E108
+Serviço não registrado.
+E109
+Nome duplicado entre irmãos ou nome único repetido.
+E110
+Reparentar criaria um ciclo.
+E201
+Erro de sintaxe no script.
+E202
+Gancho lançou exceção.
+E203
+Promessa rejeitada sem tratamento.
+E204
+Função ligada a sinal lançou exceção.
+E301
+Cena inválida ou tipo de nó desconhecido (carrega com segurança).
+E302
+Falha ao salvar ou carregar .scene.
+E401
+Tween sobre propriedade inexistente.
+E402
+Clipe aponta para nó ou propriedade inexistente.
+E403
+A drawFn de uma CanvasTexture falhou.
+E501
+Áudio bloqueado até haver um gesto do usuário.
+Cada código tem uma página com: o que significa, causa mais comum e como resolver.
+Documentação da API
+• Painel de referência com todas as classes deste documento: atributos, métodos, sinais e exemplos curtos.
+• O texto vem dos comentários de documentação escritos no próprio código nativo, para não ficar desatualizado.
+• O editor de scripts mostra a documentação ao passar o mouse e sugere nomes ao digitar.
+• Pelo erro no Console dá para abrir a página da classe ou do método envolvido.
+15. Mapa do TCG para esta API
+O que o TCG faz hoje
+Vira
+O que usar
+main.js (orquestra tudo)
+Seu código
+Script no nó raiz da cena Partida, usando getTree(), sinais e grupos.
+BattleManager, CombatSimulator, AIOpponent, rules
+Seu código
+Classes puras suas, com Rng e StateMachine.
+rng.js
+Nativo
+Rng.
+timing.js (easings e wait)
+Nativo
+Easing e node.wait().
+Piso, paredes, pilares
+Cena
+Mesh3D + Material + ImageTexture.
+Luzes, neblina, tone mapping, sombras
+Cena + Recurso
+Nós de luz e Environment.
+Braseiros, chamas, velas
+Cena
+Particles3D, Sprite3D, PointLight3D e AnimationPlayer.
+Carta 3D (face, verso, flip)
+Cena
+Cena Carta com Mesh3D plano, CanvasTexture e AnimationPlayer.
+cardTexture.js
+Recurso + Nativo
+CanvasTexture + Canvas2D; o layout é seu script.
+Slots e zonas clicáveis
+Cena
+PickArea3D.
+Raycast, hover e clique
+Nativo
+Sinais da PickArea3D.
+playAttack, flip, compra de carta
+Cena + Nativo
+AnimationPlayer (clipe relativo) ou Tween.
+Tremor de câmera e piso
+Nativo
+Shake.
+VFX (onda de choque, fagulhas, flecha, escudo, drenagem)
+Cena
+Cenas de efeito com Particles3D, Path3D, AnimationPlayer.
+Barras de vida e números presos ao monstro
+Cena
+UILayer + Control com anchorTo3D.
+Texto flutuante
+Cena
+Label + Tween.
+Modais, toast, banner, tooltip, menu, catálogo, log da partida
+Cena
+Nós de UI e Theme.
+Mão do jogador
+Cena
+HBox com cenas de carta de UI.
+SoundManager
+Serviço
+Som: AudioPlayer, Playlist, Audio (barramentos).
+Configurações salvas
+Serviço + Nativo
+Configuracoes + Save.
+32 cartas (classes)
+Recurso
+DataResource do tipo Card + ResourceRegistry.
+Criar e remover cartas conforme o estado (sync)
+Seu código
+instantiate, addChild, destroy.
+Testes node:test
+Editor
+Aba de testes automáticos.
+window.__tcg
+Editor
+Console e inspetor da cena em execução.
+Modo online
+Fora do escopo
+Só offline por enquanto.
+16. Ordem de implementação
+1. Console de depuração e editor de scripts (se ainda não existir).
+2. Base Node e Node3D, SceneTree, ganchos, sinais, grupos, wait, ciclo do Play.
+3. Camera3D e o comportamento do Play.
+4. Serviços globais e configurações do projeto.
+5. CanvasTexture e Canvas2D, Material, Mesh3D, luzes e Environment.
+6. Particles3D, Path3D e PickArea3D.
+7. Tween, Easing, AnimationPlayer e Shake.
+8. UI: UILayer, Control e os controles, Theme, prévia por resolução.
+9. Áudio: AudioPlayer, Audio, Playlist.
+10. Dados: DataResource, ResourceRegistry, Save, Input, Rng, StateMachine.
+Teste de aceitação final: recriar o TCG dentro do editor e rodar os mesmos cenários dos testes do original. A lógica de regras é pura, então os testes servem de gabarito.
+17. Pontos em aberto
+• onTick: a ideia é um passo lógico em taxa fixa configurável (tickRate). Falta confirmar se é isso que você quer dizer com ticks.
+• Editor de scripts: confirmar se já existe. O Console depende dele para apontar a linha.
+• Nomes: os nomes de métodos acima são sugestões. Podem ser trocados desde que a lista do documento seja atualizada.
